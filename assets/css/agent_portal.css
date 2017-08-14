@@ -1,0 +1,141 @@
+
+
+/* ########### */
+.topBar .submenu{
+    padding: 20px 40px 10px 40px;
+    width: 85%;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    left: 70px;
+    top: 53px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    opacity: 0;
+    display: none;
+    }
+
+.topBar .submenu .subnavlink{width: 50%;float: left;}
+s
+
+.content{margin-left: 70px}
+
+.today .box{
+    border: 1px solid #d4d7db;
+    overflow: hidden;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 0px 0px 1px 0px #c7c7c7;
+    border-radius: 5px;
+    height: 160px;
+    margin-bottom: 20px;
+}
+.today .box h3{float: left;margin-top: 38px;margin-left: 10px;font-size: 20px;}
+.today .box img{float: right;margin-top: 8px;}
+.today .box h3 span{color: #888a8d;font-size: 14px;display: inline-block;margin-bottom: 4px}
+
+.demographic .togglearrow{float: right;margin-top: 4px}
+.demographic .lastButtons {margin-top: 35px;margin-bottom: 12px}
+.demographic .lastButtons .buttons{border: 1px solid #ddd;border-radius: 32px;float: left;margin-right: 25px;}
+.demographic .lastButtons .buttons button:focus{outline: 0}
+.demographic .lastButtons .buttons button{border: 0;padding: 8px 15px;border-radius: 27px;background: transparent;width: 133px;}
+.demographic .lastButtons .buttons .graybackground{background-color: #e5e9ec}
+.demographic p{color: #949494}
+
+.secdemographic .secondTable th,.secdemographic .secondTable td {
+    width: calc(100% / 5);
+}
+
+
+.demographic form select, .demographic form input{
+    border: 1px solid #e5e9ec;
+    box-shadow: 0px 0px 2px 0px #e5e9ec;
+    padding: 8px 45px 8px 5px;
+    border-radius: 5px; outline: 0
+}
+.demographic form input,.demographic form .sel{width: 162px}
+.demographic form .sel{background-color: #f7f8f9}
+
+
+.TopTen p{color: #b2b3ba}
+
+.boxx{border: 1px solid #eee;
+    border-radius: 15px;
+    box-shadow: 0px 0px 5px 1px #eee;
+    padding: 20px; margin-bottom: 20px}
+
+
+
+.TopTen table {
+    border-collapse: separate !important;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 11px 0px #eee;
+    border-radius: 8px;
+}
+.TopTen table tr{background-color: #e5e9ec;border: 1px solid #dadce0;}
+.TopTen table tr th:first-child,table tr th:last-child{border: 0}
+.TopTen table tr th:first-child{border-right: 2px solid #fff}
+
+.TopTen table tr th:last-child{border-left: 1px solid #c7c7c7}
+
+.TopTen table tr:last-child{background: white}
+.TopTen table tr:last-child td{border: 0}
+
+.TopTen th, .TopTen td {
+    border: none;
+    text-align: left;
+    padding: 8px 11px;
+    border-right: 2px solid #fff;
+    border-left: 1px solid #c7c7c7;
+    margin: 0 0px;
+    display: inline-block;
+    width: calc(100% / 3);
+}
+
+
+.TopTen tr:nth-child(even) {background: #f7f8f9 !important}
+.TopTen tr:nth-child(even) td{border: 0 !important;}
+.TopTen tr:nth-child(odd) td{border: 0 !important;border-top: 1px solid #e1e3e6 !important;border-bottom: 1px solid #e1e3e6 !important;}
+.TopTen tr:nth-child(odd){background: #fdfefe !important;border: 1px solid #ddd;}
+.TopTen tr:first-child{background: #edeff5 !important}
+
+
+
+@media (width: 640px) {
+  .fixedusers{top: 208px}
+}
+
+@media (width: 480px) {
+  .fixedusers{top: 253px}
+}
+
+@media (width: 320px) {
+  .fixedusers{top: 294px}
+}
+
+
+@media (width: 400px) {
+  .fixedusers{margin-top: 172px;}
+}
+
+@media (width: 360px) {
+  .fixedusers{margin-top: 172px}
+}
+
+
+@media (width: 412px) {
+  .fixedusers{margin-top: 107px;}
+}
+
+
+@media (width: 375px) {
+  .fixedusers{margin-top: 172px}
+}
+
+
+@media (width: 414px) {
+  .fixedusers{margin-top: 172px}
+}

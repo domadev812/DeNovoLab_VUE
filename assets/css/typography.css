@@ -1,0 +1,222 @@
+@font-face {
+	font-family: "RobotoRegular";
+	src: url("../fonts/Roboto/RobotoRegular/RobotoRegular.eot");
+	src: url("../fonts/Roboto/RobotoRegular/RobotoRegular.eot?#iefix")format("embedded-opentype"),
+	url("../fonts/Roboto/RobotoRegular/RobotoRegular.woff") format("woff"),
+	url("../fonts/Roboto/RobotoRegular/RobotoRegular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "RobotoLight";
+	src: url("../fonts/Roboto/RobotoLight/RobotoLight.eot");
+	src: url("../fonts/Roboto/RobotoLight/RobotoLight.eot?#iefix")format("embedded-opentype"),
+	url("../fonts/Roboto/RobotoLight/RobotoLight.woff") format("woff"),
+	url("../fonts/Roboto/RobotoLight/RobotoLight.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "RobotoMedium";
+	src: url("../fonts/Roboto/RobotoMedium/RobotoMedium.eot");
+	src: url("../fonts/Roboto/RobotoMedium/RobotoMedium.eot?#iefix")format("embedded-opentype"),
+	url("../fonts/Roboto/RobotoMedium/RobotoMedium.woff") format("woff"),
+	url("../fonts/Roboto/RobotoMedium/RobotoMedium.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "RobotoBold";
+	src: url("../fonts/Roboto/RobotoBold/RobotoBold.eot");
+	src: url("../fonts/Roboto/RobotoBold/RobotoBold.eot?#iefix")format("embedded-opentype"),
+	url("../fonts/Roboto/RobotoBold/RobotoBold.woff") format("woff"),
+	url("../fonts/Roboto/RobotoBold/RobotoBold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+  font-family: 'icons';
+  src:
+    url('../fonts/icons/icons.ttf?erpbb5') format('truetype'),
+    url('../fonts/icons/icons.woff?erpbb5') format('woff'),
+    url('../fonts/icons/icons.svg?erpbb5#icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dnl_icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.dnl_megaphone:before {
+  content: "\e932";
+}
+.dnl_save:before {
+  content: "\e931";
+}
+.dnl_money:before {
+  content: "\e930";
+}
+.dnl_reply:before {
+  content: "\e92f";
+}
+.dnl_eye:before {
+  content: "\e92e";
+}
+.dnl_persona:before {
+  content: "\e92a";
+}
+.dnl_badges:before {
+  content: "\e92b";
+}
+.dnl_modem:before {
+  content: "\e92c";
+}
+.dnl_person:before {
+  content: "\e92d";
+}
+.dnl_tick:before {
+  content: "\e929";
+}
+.dnl_check:before {
+  content: "\e921";
+}
+.dnl_download:before {
+  content: "\e922";
+}
+.dnl_exit:before {
+  content: "\e923";
+}
+.dnl_export:before {
+  content: "\e924";
+}
+.dnl_ingress_host:before {
+  content: "\e925";
+}
+.dnl_label:before {
+  content: "\e926";
+}
+.dnl_lock:before {
+  content: "\e927";
+}
+.dnl_refresh:before {
+  content: "\e928";
+}
+.dnl_disabled:before {
+  content: "\e91f";
+}
+.dnl_key:before {
+  content: "\e920";
+}
+.dnl_list:before {
+  content: "\e91b";
+}
+.dnl_group:before {
+  content: "\e91c";
+}
+.dnl_remove-user:before {
+  content: "\e91d";
+}
+.dnl_user:before {
+  content: "\e91e";
+}
+.dnl_arrow-point-to-right:before {
+  content: "\e91a";
+}
+.dnl_musica-searcher:before {
+  content: "\e919";
+}
+.dnl_copy:before {
+  content: "\e916";
+}
+.dnl_test:before {
+  content: "\e917";
+}
+.dnl_trigger:before {
+  content: "\e918";
+}
+.dnl_to_left:before {
+  content: "\e914";
+}
+.dnl_to_right:before {
+  content: "\e915";
+}
+.dnl_sort:before {
+  content: "\e913";
+}
+.dnl_action_delete:before {
+  content: "\e910";
+}
+.dnl_action_menu:before {
+  content: "\e911";
+}
+.dnl_action_edit:before {
+  content: "\e912";
+}
+.dnl_info:before {
+  content: "\e90d";
+}
+.dnl_setting:before {
+  content: "\e90e";
+}
+.dnl_support:before {
+  content: "\e90f";
+}
+.dnl_add:before {
+  content: "\e900";
+}
+.dnl_auto_delivery:before {
+  content: "\e901";
+}
+.dnl_calendar:before {
+  content: "\e902";
+}
+.dnl_chart:before {
+  content: "\e903";
+}
+.dnl_dashboard:before {
+  content: "\e904";
+}
+.dnl_egress:before {
+  content: "\e905";
+}
+.dnl_import:before {
+  content: "\e906";
+}
+.dnl_ingress:before {
+  content: "\e907";
+}
+.dnl_menu:before {
+  content: "\e908";
+}
+.dnl_qos_report:before {
+  content: "\e909";
+}
+.dnl_email:before {
+  content: "\2709";
+}
+.dnl_reload:before {
+  content: "\e90a";
+}
+.dnl_report:before {
+  content: "\e90b";
+}
+.dnl_ring:before {
+  content: "\e90c";
+}

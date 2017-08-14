@@ -1,0 +1,740 @@
+.transition{transition: all .5s ease-in-out;-webkit-transition: all .5s ease-in-out;-moz-transition: all .5s ease-in-out;-o-transition: all .5s ease-in-out;-ms-transition: all .5s ease-in-out}
+
+
+
+.topBar .top{background-color: #2b3043;padding: 16px 0px 52px 0;}
+.topBar .bottom{background-color: #21252c;height: 56px;line-height: 56px;}
+.topBar .bottom i{display: inline}
+.topBar .bottom p{float: right}
+.topBar ul{margin-top: 3px;}
+.topBar .avatar img{margin-left: 22px;cursor: pointer;}
+.topBar .top ul li:first-child{width: 45%;float: left;}
+.topBar .top ul li a{color: white;text-decoration: none;font-weight: bold;}
+.topBar .iconAndCounter{width: 60px;float: left;position: relative;margin-top: 9px;cursor: pointer;}
+.topBar .iconAndCounter span{
+    color: #191919;
+    position: absolute;
+    background-color: white;
+    border-radius: 15px;
+    padding: 2px 10px;
+    font-size: 13px;
+    left: 11px;
+}
+
+.topBar .top .middlelinks li a img{padding: 0 8px}
+.topBar .username{color: white}
+.topBar .bottom .rightarrow{padding: 0 12px 0 17px;color: #999ea3;font-size: 15px;}
+.topBar .bottom a{color: white;text-decoration: none;}
+.topBar .bottom a.active{color: #999ea3;}
+.topBar .bottom p{color: #878B91}
+
+
+/* ########### */
+.topBar .submenu{
+    padding: 20px 40px 10px 40px;
+    width: 142%;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    left: -53px;
+    top: 53px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    opacity: 0; display: none
+    }
+
+.topBar .submenu .subnavlink{width: 25%; float: left}
+.topBar .submenu .subnavlink a{    color: white;
+    font-size: 13px;
+    font-family: arial;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block; text-decoration: none}
+.topBar .submenu .subnavlink a p{color: #bdbfc6;font-size: 12px;font-weight: normal;margin-left: 30px;}
+.topBar .submenu .subnavlink a p:hover{color: #96bf07}
+.have-sub-menue{cursor: pointer}
+
+
+
+.notify{    z-index: 999999999999999999999;position: relative}
+.avatar{position: relative}
+.arrowHideshow{cursor: pointer}
+.avatar .HideShow
+{
+  position: absolute;
+  background-color: #22262b;
+  z-index: 99999999999999;
+  right: 5px;
+  top: 52px;
+  padding: 0 25px 0 25px;
+  border-radius: 0 0 7px 7px;
+  display: none; opacity: 0
+  }
+.avatar .HideShow{transition: all .5s ease-in-out}
+.avatar .HideShow a{display: block;color: #bdbfc6;text-decoration: none;padding: 0 0 12px 0px;font-size: 13px;transition: all .5s ease-in-out;}
+.avatar .HideShow h3{color: white;margin-top: 12px;margin-bottom: 18px;}
+.avatar .HideShow h3 span{color: #8b8c8d;font-size: 13px;font-family: verdana;margin-bottom: 5px;display: block;}
+.avatar .HideShow a button{width: 100%;background: #3c4045;border-color: #45494e;font-size: 14px;margin: 18px 0 7px 0;outline: none}
+.avatar .HideShow a button:focus{outline: 0}
+.avatar .HideShow img{margin-left: 0}
+.avatar .HideShow a:hover{color: #96bf07}
+
+/* client dashboard */
+.dashboards .box{padding: 15px;text-align: center;width: 99%;height: 152px;border: 1px solid #dee0e3;box-shadow: 0px 0px 1px 0px #dee0e3;border-radius: 5px;margin-bottom: 30px;}
+.dashboards .boxOne{background-color: #ffdad4}
+.dashboards .boxTwo{background-color: #eaedf0}
+.dashboards .boxThree{background-color: #e4fcdc}
+.dashboards h3{font-size: 21px;}
+.dashboards .MsgTitle{font-size: 25px}
+.dashboards .pull-right.margin{margin-top: 20px;margin-bottom: 20px;}
+.dashboards .pull-right a{color: #222222;font-weight: bold;font-size: 14px;text-decoration: none;margin: 0 9px;}
+.dashboards .distnictbtn{background-color: #e5e9ec;padding: 11px;border-radius: 24px;margin-right: 0 !important;}
+.dashboards .box h3:first-child{float: left;font-size: 22px;margin: 10px 0;}
+.dashboards .box h3 span{color: #cacfd7;font-size: 20px;}
+.dashboards .box img{float: right;margin-right: 6px}
+
+/* message */
+.messages .box{padding: 15px;text-align: center;width: 99%;height: 152px;border: 1px solid #dee0e3;box-shadow: 0px 0px 1px 0px #dee0e3;border-radius: 5px;margin-bottom: 30px;}
+.messages .boxOne{background-color: #ffdad4}
+.messages .boxTwo{background-color: #eaedf0}
+.messages .boxThree{background-color: #e4fcdc}
+.messages h3{font-size: 21px;}
+.messages .MsgTitle{font-size: 25px}
+.messages .pull-right.margin{margin-top: 20px;margin-bottom: 20px;}
+.messages .pull-right a{color: #222222;font-weight: bold;font-size: 14px;text-decoration: none;margin: 0 9px;}
+.messages .distnictbtn{background-color: #e5e9ec;padding: 11px;border-radius: 24px;margin-right: 0 !important;}
+.messages .box h3:first-child{float: left;font-size: 22px;margin: 10px 0;}
+.messages .box h3 span{color: #cacfd7;font-size: 20px;}
+
+/* Account */
+.accounts .box{padding: 15px 15px 30px 15px;text-align: center;width: 99%;border: 1px solid #dee0e3;box-shadow: 0px 0px 1px 0px #dee0e3;border-radius: 5px;margin-bottom: 30px;}
+.accounts h3{font-size: 22px;margin-bottom: 30px;}
+.accounts .box p{width: 90%;padding: 13px 0;font-size: 12px;font-weight: bold;font-family: tahoma;color: #565656;margin-left: 5%;}
+.accounts .box p.grarbackground{background: #f8f9fa;border-radius: 5px;}
+.accounts .box p span{margin-left: 10px;}
+.accounts .box div{height: 410px;}
+.accounts .box .edit{border: 0;box-shadow: none;background-color: #03c0fc;color: white;border-radius: 5px;outline: 0;padding: 7px 13%;margin-bottom: 5px;}
+.accounts .MsgTitle{font-size: 25px}
+.accounts .pull-right.margin{margin-top: 20px;margin-bottom: 20px;}
+.accounts .pull-right a{color: #222222;font-weight: bold;font-size: 14px;text-decoration: none;margin: 0 9px;}
+.accounts .distnictbtn{background-color: #e5e9ec;padding: 11px;border-radius: 24px;margin-right: 0 !important;}
+
+.port .portbox{background: #ffdcb9;border-radius: 6px;height: 105px;margin-bottom: 20px;}
+.port .portbox h3{line-height: 103px;margin: 0;}
+.port .buyBox{background: #d0ebfe}
+.port .panel-body {padding: 15px;height: 103px;background-color: #f8f9fa;}
+.port .panel-heading {color: #333;background-color: #e5e9ec;border-color: #ddd}
+.port .panel-footer{color: #333;background-color: #e5e9ec;border-color: #ddd}
+
+
+.cost-calls{border: 1px solid #d4d7db;overflow: hidden;margin: 5px 15px; height: 400px}
+.cost-calls p{
+    margin: 0 -15px;
+    padding: 10px;
+    border-right: 0;
+    border-top: 0;
+    color: #222;
+    font-size: 14px}
+.cost-calls .distnictP{border: 1px solid #d4d7db;background: #e5e9ec;border-right: 0;border-top: 0;}
+
+
+
+
+.tableMargin{width: 98%;margin: 0 auto;margin-bottom: 15px;}
+/* .demographic table {
+    border-collapse: separate !important;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 11px 0px #eee;
+    border-radius: 8px;
+}
+.demographic table tr{background-color: #e5e9ec;border: 1px solid #dadce0;}
+.demographic table tr th:first-child,.demographic table tr th:last-child{border: 0}
+.demographic table tr th:first-child{border-right: 2px solid #fff}
+
+.demographic table tr th:last-child{border-left: 1px solid #c7c7c7}
+
+.demographic table tr:last-child{background: white}
+.demographic table tr:last-child td{border: 0}
+
+.demographic th, .demographic td {
+    border: none;
+    text-align: left;
+    padding: 8px 11px;
+    border-right: 2px solid #fff;
+    width: calc(100% / 6);
+    border-left: 1px solid #c7c7c7;
+    margin: 0 0px;
+    display: inline-block;
+}
+.demographic tr:nth-child(even){background-color: #f2f2f2} */
+
+.togglearrow{float: right;margin-top: 4px}
+.lastButtons {margin-top: 35px;margin-bottom: 12px}
+.lastButtons .buttons{border: 1px solid #ddd;border-radius: 32px;float: left;margin-right: 25px;}
+.lastButtons .buttons button:focus{outline: 0}
+.lastButtons .buttons button{border: 0;padding: 8px 15px;border-radius: 27px;background: transparent;width: 133px;}
+.lastButtons .buttons .graybackground{background-color: #e5e9ec}
+p{color: #949494}
+/* .RecentTransactions th, .RecentTransactions td{width: calc(100% / 5)} */
+
+
+
+
+
+
+
+.AsrAcd{margin-top: 32px}
+.AsrAcd .Asr, .AsrAcd .Acd{background: #55595c;padding: 10px 15px;border-radius: 7px;height: 45px;}
+.AsrAcd .Asr h3, .AsrAcd .Acd h3{padding: 0; margin: 0; color: white}
+.AsrAcd .Asr h3 span, .AsrAcd .Acd h3 span{color: #797b7d;font-size: 19px;}
+
+
+.graph{
+    margin: 22px 0;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #eee;
+    height: 170px;
+    box-shadow: 0px 0px 3px 1px #eee;
+}
+
+
+footer{background-color: #e4e8ec;margin-top: 50px;}
+
+footer p {
+    margin: 0;
+    padding: 13px 17px;
+    font-size: 13px;
+}
+
+
+/* ########### */
+
+
+.fixedusers{
+    width: 70px;
+    position: fixed;
+    top: 124px;
+    cursor: pointer;
+    height: 100%;
+    padding: 30px 0px;
+    background: #f8f8f9;
+    z-index: 999999999999999999999999;
+    border-right: 1px solid #d4d7db;
+    }
+.fixedusers .user div.char{
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    background: white;
+    margin-left: 15px;
+    color: #caccce;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 40px;
+    box-shadow: 0px 0px 2px 0px #dedede;
+    margin-bottom: 30px;
+    font-size: 18px;
+    }
+
+.fixedusers .user div .opened{display: none}
+.fixedusers .user div.open .opened{display: block;width: 8px;height: 8px;background: #45ce33;position: absolute;right: 9px;border-radius: 50%;}
+
+
+
+
+
+@media (width: 1024px) {
+  .topBar .top .col-md-3{width:16.66666667% }
+  .topBar .top .col-md-4{width: 41.66666667%}
+  .topBar .submenu{left: -39px}
+  .topBar .avatar img {
+      margin-left: -3px !important;
+      cursor: pointer;
+  }
+}
+
+
+
+@media (width: 768px) {
+  .topBar .top .middlelinks li a img{padding: 0}
+  .col-sm-5 {
+      width: 55.666667%;
+  }
+  .col-sm-6 {
+      width: 36%;
+  }
+  .topBar .username {
+      color: white;
+      font-size: 12px;
+  }
+
+  .messages .col-sm-3{float: none}
+  .have-sub-menue img{margin-left: 30px}
+  .middlelinks li a img{margin-left: 30px}
+  .topBar .submenu{width: 234%}
+  .topBar .bottom div.col-sm-6{width: 50%}
+}
+
+
+
+@media (width: 640px){
+  .topBar .top{text-align: center}
+  .topBar .bottom .pull-right{margin-top: -55px}
+  .topBar .iconAndCounter span{left: 35px}
+  .arrowHideshow{float: right}
+  .topBar .submenu {
+    padding: 20px 40px 10px 40px;
+    width: 95%;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    left: 2.5%;
+    top: 93px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    opacity: 0;
+    display: none}
+}
+
+@media (width: 480px){
+  .topBar .top{text-align: center}
+  .topBar .bottom .pull-right{margin-top: -55px}
+  .topBar .iconAndCounter span{left: 35px}
+  .topBar .submenu {
+    padding: 20px 40px 10px 40px;
+    width: 100%;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    left: 0;
+    top: 96px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    opacity: 0;
+    display: none}
+}
+
+@media (width: 320px){
+  .topBar .top{text-align: center}
+  .topBar .bottom .pull-right{margin-top: -55px}
+  .topBar .iconAndCounter span{left: 45px;}
+  .topBar .top ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: -32px}
+    .notify {
+        z-index: 999999999999999999999;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .topBar .iconAndCounter {width: 85px;}
+    .topBar .top ul li:first-child {
+    width: 50%;
+    float: left}
+
+    .arrowHideshow{margin-left: -28px}
+    .avatar .HideShow{right: 45px}
+
+    .topBar .submenu{
+    padding: 20px 40px 10px 40px;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    top: 150px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    width: 100%;
+    left: 0;
+    }
+
+    .topBar .submenu .subnavlink {
+    width: 100%;
+    float: left}
+
+    .topBar .top {
+    background-color: #2b3043;
+    padding: 16px 0px 52px 0;
+    margin: 0 0 -42px 0}
+
+    .topBar .top div.col-sm-1 img{margin-bottom: 15px}
+    .topBar .bottom p {
+    color: #878B91;
+    margin-top: 25px}
+    .topBar .bottom .pull-right img{margin-top: 40px}
+    .topBar .bottom {
+    background-color: #21252c;
+    height: 72px;
+    line-height: 56px}
+
+    .messages .pull-right a {
+    color: #222222;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 0 9px;
+    margin-bottom: 8px;
+    display: inline-block}
+
+    .demographSM .lastButtons .buttons button {
+      border: 0;
+      padding: 8px 15px;
+      border-radius: 27px;
+      background: transparent;
+      width: 46%}
+
+      .AsrAcd .Asr h3 span, .AsrAcd .Acd h3 span {
+    color: #797b7d;
+    font-size: 13px}
+}
+
+
+@media (width: 412px) {
+
+  .topBar .username {
+    color: white;
+    font-size: 13px}
+    .topBar .submenu {
+      padding: 20px 40px 10px 40px;
+      width: 100%;
+      background: #21252c;
+      position: absolute;
+      z-index: 9999999999999999999999999;
+      left: 0;
+      top: 100px;
+      box-shadow: 0px 0px 11px -2px #404A5A;
+      border-radius: 5px;
+      border: 1px solid #33373e}
+  .topBar .top div.col-sm-1 img{margin-bottom: 15px}
+  .topBar .bottom div.col-sm-6:last-child{margin-top: -57px}
+  .topBar .top {
+    background-color: #2b3043;
+    padding: 16px 0px 52px 0;
+    margin: 0 0px -38px 0}
+
+    .messages .pull-right a {
+    color: #222222;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 0 9px;
+    display: inline-block;
+    margin-bottom: 10px}
+}
+
+
+@media (width: 360px){
+  .topBar .top{text-align: center}
+  .topBar .bottom .pull-right{margin-top: -55px}
+  .topBar .iconAndCounter span{left: 51px;}
+  .topBar .top ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: -32px}
+    .notify {
+        z-index: 999999999999999999999;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .topBar .iconAndCounter {width: 102px;}
+    .topBar .top ul li:first-child {
+    width: 50%;
+    float: left}
+
+    .arrowHideshow{margin-left: -28px}
+    .avatar .HideShow{right: 45px}
+
+    .topBar .submenu{
+    padding: 20px 40px 10px 40px;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    top: 150px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    width: 100%;
+    left: 0;
+    }
+
+    .topBar .submenu .subnavlink {
+    width: 100%;
+    float: left}
+
+    .topBar .top {
+    background-color: #2b3043;
+    padding: 16px 0px 52px 0;
+    margin: 0 0 -42px 0}
+
+    .topBar .top div.col-sm-1 img{margin-bottom: 15px}
+    .topBar .bottom p {
+    color: #878B91;
+    margin-top: 25px}
+    .topBar .bottom .pull-right img{margin-top: 40px}
+    .topBar .bottom {
+    background-color: #21252c;
+    height: 72px;
+    line-height: 56px}
+
+    .messages .pull-right a {
+    color: #222222;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 0 9px;
+    margin-bottom: 8px;
+    display: inline-block}
+
+    .demographSM .lastButtons .buttons button {
+      border: 0;
+      padding: 8px 15px;
+      border-radius: 27px;
+      background: transparent;
+      width: 46%}
+
+      .AsrAcd .Asr h3 span, .AsrAcd .Acd h3 span {
+    color: #797b7d;
+    font-size: 13px}
+}
+
+
+
+@media (width: 375px){
+  .topBar .top{text-align: center}
+  .topBar .bottom .pull-right{margin-top: -55px}
+  .topBar .iconAndCounter span{left: 51px;}
+  .topBar .top ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: -32px}
+    .notify {
+        z-index: 999999999999999999999;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .topBar .iconAndCounter {width: 102px;}
+    .topBar .top ul li:first-child {
+    width: 50%;
+    float: left}
+
+    .arrowHideshow{margin-left: -28px}
+    .avatar .HideShow{right: 45px}
+
+    .topBar .submenu{
+    padding: 20px 40px 10px 40px;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    top: 150px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    width: 100%;
+    left: 0;
+    }
+
+    .topBar .submenu .subnavlink {
+    width: 100%;
+    float: left}
+
+    .topBar .top {
+    background-color: #2b3043;
+    padding: 16px 0px 52px 0;
+    margin: 0 0 -42px 0}
+
+    .topBar .top div.col-sm-1 img{margin-bottom: 15px}
+    .topBar .bottom p {
+    color: #878B91;
+    margin-top: 25px}
+    .topBar .bottom .pull-right img{margin-top: 40px}
+    .topBar .bottom {
+    background-color: #21252c;
+    height: 72px;
+    line-height: 56px}
+
+    .messages .pull-right a {
+    color: #222222;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 0 9px;
+    margin-bottom: 8px;
+    display: inline-block}
+
+    .demographSM .lastButtons .buttons button {
+      border: 0;
+      padding: 8px 15px;
+      border-radius: 27px;
+      background: transparent;
+      width: 46%}
+
+      .AsrAcd .Asr h3 span, .AsrAcd .Acd h3 span {
+    color: #797b7d;
+    font-size: 13px}
+}
+
+
+@media (width: 414px){
+  .topBar .top{text-align: center}
+  .topBar .bottom .pull-right{margin-top: -55px}
+  .topBar .iconAndCounter span{left: 58px;}
+  .topBar .top ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: -32px}
+    .notify {
+        z-index: 999999999999999999999;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .topBar .iconAndCounter {width: 122px;}
+    .topBar .top ul li:first-child {
+    width: 50%;
+    float: left}
+
+    .arrowHideshow{margin-left: -28px}
+    .avatar .HideShow{right: 45px}
+
+    .topBar .submenu{
+    padding: 20px 40px 10px 40px;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    top: 150px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    width: 100%;
+    left: 0;
+    }
+
+    .topBar .submenu .subnavlink {
+    width: 100%;
+    float: left}
+
+    .topBar .top {
+    background-color: #2b3043;
+    padding: 16px 0px 52px 0;
+    margin: 0 0 -42px 0}
+
+    .topBar .top div.col-sm-1 img{margin-bottom: 15px}
+    .topBar .bottom p {
+    color: #878B91;
+    margin-top: 25px}
+    .topBar .bottom .pull-right img{margin-top: 40px}
+    .topBar .bottom {
+    background-color: #21252c;
+    height: 72px;
+    line-height: 56px}
+
+    .messages .pull-right a {
+    color: #222222;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 0 9px;
+    margin-bottom: 8px;
+    display: inline-block}
+
+    .demographSM .lastButtons .buttons button {
+      border: 0;
+      padding: 8px 15px;
+      border-radius: 27px;
+      background: transparent;
+      width: 46%}
+
+      .AsrAcd .Asr h3 span, .AsrAcd .Acd h3 span {
+    color: #797b7d;
+    font-size: 13px}
+}
+
+
+@media (width: 400px){
+  .topBar .top{text-align: center}
+  .topBar .bottom .pull-right{margin-top: -55px}
+  .topBar .iconAndCounter span{left: 58px;}
+  .topBar .top ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: -32px}
+    .notify {
+        z-index: 999999999999999999999;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .topBar .iconAndCounter {width: 122px;}
+    .topBar .top ul li:first-child {
+    width: 50%;
+    float: left}
+
+    .arrowHideshow{margin-left: -28px}
+    .avatar .HideShow{right: 45px}
+
+    .topBar .submenu{
+    padding: 20px 40px 10px 40px;
+    background: #21252c;
+    position: absolute;
+    z-index: 9999999999999999999999999;
+    top: 150px;
+    box-shadow: 0px 0px 11px -2px #404A5A;
+    border-radius: 5px;
+    border: 1px solid #33373e;
+    width: 100%;
+    left: 0;
+    }
+
+    .topBar .submenu .subnavlink {
+    width: 100%;
+    float: left}
+
+    .topBar .top {
+    background-color: #2b3043;
+    padding: 16px 0px 52px 0;
+    margin: 0 0 -42px 0}
+
+    .topBar .top div.col-sm-1 img{margin-bottom: 15px}
+    .topBar .bottom p {
+    color: #878B91;
+    margin-top: 25px}
+    .topBar .bottom .pull-right img{margin-top: 40px}
+    .topBar .bottom {
+    background-color: #21252c;
+    height: 72px;
+    line-height: 56px}
+
+    .messages .pull-right a {
+    color: #222222;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 0 9px;
+    margin-bottom: 8px;
+    display: inline-block}
+
+    .demographSM .lastButtons .buttons button {
+      border: 0;
+      padding: 8px 15px;
+      border-radius: 27px;
+      background: transparent;
+      width: 46%}
+
+      .AsrAcd .Asr h3 span, .AsrAcd .Acd h3 span {
+    color: #797b7d;
+    font-size: 13px}
+}
