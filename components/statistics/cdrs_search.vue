@@ -142,7 +142,7 @@
 								</div>
 								<div class="col-md-6 second">
 									<label>Ingress:</label>
-									<select class="selectable no-min-width" v-model="ingress">
+									<select class="selectable no-min-width" v-model="ingress_trunk">
 										<option v-for="item in ingress_trunk_options" v-bind:value="item.id">
 											{{ item.text }}
 										</option>
@@ -304,7 +304,7 @@
 							<div class="white_pad less_pad">
 								<h1 class="page-header">Fields</h1>
 								<label for="groupname">Show Fields:</label>
-								<select multiple class="multi cdrs-search-field">
+								<select multiple class="multi cdrs-search-field" v-model = "backup_selected_show_fields">
 									<option v-for="option in show_field_options" :value='option.value'>{{option.text}}</option>
 								</select>								
 								<div class="clearfix"></div>
@@ -327,39 +327,15 @@
 						<table class="table table-striped table-hover carrier_groups centrum">
 						  <thead>
 							<tr>
-								<th>Tax</th>
-								<th>Call Duration</th>
-								<th>Egress Alias</th>
-								<th>Ingress Alias</th>
-								<th>ORIG DST Number</th>
-								<th>PDD(ms)</th>
-								<th>ORIG SRC Number</th>
-								<th>Release Cause</th>
-								<th>Response from Egress</th>
-								<th>Orig Call Duration</th>
-								<th>Response to Ingress</th>
-								<th>Time</th>
-								<th>Origination Profile IP</th>
-							</tr>
+								<th v-for="column in show_table_columns ">{{ column }}</th>
+							</tr>							
 						  </thead>
 						  <tbody>
 							<tr v-if="!filterBy(cdrs, cdr).length">
 								<td style="text-align: center" colspan="13">No Data Found</td>
 							</tr>
 							<tr v-for="cdr in cdrs">
-							  <td>{{cdr.tax}}</td>
-							  <td>{{cdr.call_duration}}</td>
-							  <td>{{cdr.egress_alias}}</td>
-							  <td>{{cdr.ingress_alias}}</td>
-							  <td>{{cdr.orig_dst_number}}</td>
-							  <td>{{cdr.pdd}}</td>
-							  <td>{{cdr.orig_src_number}}</td>
-							  <td>{{cdr.release_cause}}</td>
-							  <td>{{cdr.response_from_egress}}</td>
-							  <td>{{cdr.orig_call_duration}}</td>
-							  <td>{{cdr.response_to_ingress}}</td>
-							  <td>{{cdr.time}}</td>
-							  <td>{{cdr.origination_profile_ip}}</td>
+							  <td v-for="show_field in selected_show_fields">{{ cdr[show_field] }}</td>							  
 							</tr>
 						  </tbody>
 						</table>
@@ -464,8 +440,8 @@
 		created: function(){			
 			this.searchReport();
 			this.fetchCarriers();
-			this.fetchAllTrunks('egress');
-			this.fetchAllTrunks('ingress');
+			//this.fetchAllTrunks('egress');
+			//this.fetchAllTrunks('ingress');
 		},
 		components: {
 			'tabs': vTabs,
@@ -483,6 +459,7 @@
 					{id: 'with_prefix', text: 'With Prefix'},
 					{id: 'without_prefix', text: 'Without Prefix'},
 				],
+				dnis: 'with_prefix',
 				show_options: [
 					{id: 'show_all', text: 'Show All'},
 					{id: 'authorized_ips_only', text: 'Authorized IPs only'},
@@ -504,6 +481,11 @@
 				egress_trunk_options: [],
 				egress_carrier: '',
 				ingress_carrier: '',
+				ingress_trunk: '',
+				egress_trunk: '',
+				country: '',
+				code_name: '',
+				code: '',
 				carrier_options: [],				
 				web: 'web',
 				web_options: [
@@ -564,13 +546,16 @@
 				  { id: 2, text: 'Fail to Next Trunk' },
 				  { id: 3, text: 'Stop' },
 			  	],
+				selected_show_fields: [],
+				backup_selected_show_fields: ['call_duration', 'egress_alias', 'ingress_alias', 'origination_destination_number', 'pdd', 'origination_source_number', 'release_cause', 'time', 'release_cause_from_protocol_stack', 'orig_call_duration'],
+				show_table_columns: [],
 				show_field_options: [
-				  { id: 1, value: 'answer_time', text: 'Answer Time' },
+				  { id: 1, value: 'answer_time_of_date', text: 'Answer Time' },
 				  { id: 2, value: 'call_duration', text: 'Call Duration'},
-				  { id: 3, value: 'call_duration_in_ms', text: 'Call duration in ms' },
-				  { id: 4, value: 'dynamic_route_name', text: 'Dynamic Route Name' },
+				  { id: 3, value: 'callduration_in_ms', text: 'Call duration in ms' },
+				  { id: 4, value: 'dynamic_route', text: 'Dynamic Route Name' },
 				  { id: 5, value: 'egress_alias', text: 'Egress Alias' },
-				  { id: 6, value: 'egress_bill_minute', text: 'Egress Bill Minutes' },
+				  { id: 6, value: 'egress_bill_minutes', text: 'Egress Bill Minutes' },
 				  { id: 7, value: 'egress_bill_result', text: 'Egress Bill Result' },
 				  { id: 8, value: 'egress_bill_time', text: 'Egress Bill Time' },
 				  { id: 9, value: 'egress_code_acd', text: 'Egress CODE ACD' },
@@ -587,13 +572,13 @@
 				  { id: 20, value: 'egress_rate_type', text: 'Egress Rate Type' },
 				  { id: 21, value: 'egress_register_user', text: 'Egress Register User' },
 				  { id: 22, value: 'egress_six_seconds', text: 'Egress Six Seconds' },
-				  { id: 23, value: 'egress_trunk_trace', text: 'Egress Trunk Trace' },
-				  { id: 24, value: 'end_time', text: 'End Time' },
+				  { id: 23, value: 'egress_erro_string', text: 'Egress Trunk Trace' },
+				  { id: 24, value: 'release_tod', text: 'End Time' },
 				  { id: 25, value: 'final_route', text: 'Final Route' },
 				  { id: 26, value: 'ingress_alias', text: 'Ingress Alias' },
-				  { id: 27, value: 'ingress_bill_minute', text: 'Ingress Bill Minute' },
-				  { id: 28, value: 'ingress_client_bill_result', text: 'Ingress Client Bill Result' },
-				  { id: 29, value: 'ingress_client_bill_time', text: 'Ingress Client Bill Time' },
+				  { id: 27, value: 'ingress_bill_minutes', text: 'Ingress Bill Minute' },
+				  { id: 28, value: 'ingress_client_bill_result', text: 'Ingress Bill Result' },
+				  { id: 29, value: 'ingress_client_bill_time', text: 'Ingress Bill Time' },
 				  { id: 30, value: 'ingress_client_cost', text: 'Ingress Client Cost' },			
 				  { id: 31, value: 'ingress_client_currency', text: 'Ingress Client Currency' },
 				  { id: 32, value: 'ingress_client_name', text: 'Ingress Client Name' },
@@ -604,44 +589,44 @@
 				  { id: 37, value: 'ingress_rate_id', text: 'Ingress Rate ID' },
 				  { id: 38, value: 'ingress_rate_type', text: 'Ingress Rate Type' },
 				  { id: 39, value: 'ingress_register_user', text: 'Ingress Register User' },
-				  { id: 40, value: 'lrn_number', text: 'LRN Number' },
+				  { id: 40, value: 'lrn_dnis', text: 'LRN Number' },
 				  { id: 41, value: 'lrn_source', text: 'LRN Source' },
 				  { id: 42, value: 'lnp_dipping_cost', text: 'Lnp Dipping Cost' },
-				  { id: 43, value: 'orig_codecs', text: 'ORIG Codecs' },
-				  { id: 44, value: 'orig_dst_number', text: 'ORIG DST Number' },
-				  { id: 45, value: 'orig_ip', text: 'ORIG IP' },
-				  { id: 46, value: 'orig_src_number', text: 'ORIG SRC Number' },
-				  { id: 47, value: 'orig_term_release', text: 'ORIG/TERM Release' },
+				  { id: 43, value: 'origination_codec_list', text: 'ORIG Codecs' },
+				  { id: 44, value: 'origination_destination_number', text: 'ORIG DST Number' },
+				  { id: 45, value: 'origination_source_host_name', text: 'ORIG IP' },
+				  { id: 46, value: 'origination_source_number', text: 'ORIG SRC Number' },
+				  { id: 47, value: 'first_release_dialogue', text: 'ORIG/TERM Release' },
 				  { id: 48, value: 'orig_call_duration', text: 'Orig Call Duration' },
 				  { id: 49, value: 'orig_code', text: 'Orig Code' },
 				  { id: 50, value: 'orig_code_name', text: 'Orig Code Name' },
 				  { id: 51, value: 'orig_country', text: 'Orig Country' },
 				  { id: 52, value: 'orig_delay_second', text: 'Orig Delay Second' },
-				  { id: 53, value: 'orig_media_ip', text: 'Orig Media IP' },
-				  { id: 54, value: 'orig_media_port', text: 'Orig Media Port' },
+				  { id: 53, value: 'origination_remote_payload_ip_address', text: 'Orig Media IP' },
+				  { id: 54, value: 'origination_remote_payload_udp_address', text: 'Orig Media Port' },
 				  { id: 55, value: 'orig_switch_ip', text: 'Orig Switch IP' },
 				  { id: 56, value: 'origination_call_id', text: 'Origination Call ID' },
-				  { id: 57, value: 'origination_local_payload_ip', text: 'Origination Local Payload IP' },
-				  { id: 58, value: 'origination_local_payload_port', text: 'Origination Local Payload Port' },
-				  { id: 59, value: 'origination_call_id', text: 'Origination Call ID' },
+				  { id: 57, value: 'origination_local_payload_ip_address', text: 'Origination Local Payload IP' },
+				  { id: 58, value: 'origination_local_payload_port', text: 'Origination Local Payload Port' },		
+				  { id: 81, value: 'termination_profile_id', text: 'Origination Profile ID' },		  
 				  { id: 60, value: 'origination_profile_port', text: 'Origination Profile Port' },
 				  { id: 61, value: 'pdd', text: 'Pdd' },
 				  { id: 62, value: 'release_cause', text: 'Release Cause' },
-				  { id: 63, value: 'response_from_egress', text: 'Response From Egress' },
-				  { id: 64, value: 'response_to_igress', text: 'Response To Igress' },
+				  { id: 63, value: 'release_cause_from_protocol_stack', text: 'Response To Egress' },
+				  { id: 64, value: 'binary_value_of_release_cause_from_protocol_stack', text: 'Response From Igress' },
 				  { id: 65, value: 'ring_time', text: 'Ring Time' },
-				  { id: 66, value: 'routing_plan_name', text: 'Routing Plan Name' },
-				  { id: 67, value: 'static_route_name', text: 'Static Route Name' },
-				  { id: 68, value: 'term_codecs', text: 'Term Codecs' },
-				  { id: 69, value: 'term_dst_number', text: 'Term DST Number' },
-				  { id: 70, value: 'term_ip', text: 'Term IP' },
-				  { id: 71, value: 'term_src_number', text: 'Term src Number' },
+				  { id: 66, value: 'routing_plan', text: 'Routing Plan' },
+				  { id: 67, value: 'static_route', text: 'Static Route Name' },
+				  { id: 68, value: 'termination_codec_list', text: 'Term Codecs' },
+				  { id: 69, value: 'termination_destination_number', text: 'Term DST Number' },
+				  { id: 70, value: 'termination_destination_host_name', text: 'Term IP' },
+				  { id: 71, value: 'termination_source_number', text: 'Term src Number' },
 				  { id: 72, value: 'tax', text: 'Tax' },
 				  { id: 73, value: 'term_code', text: 'Term Code' },
 				  { id: 74, value: 'term_code_name', text: 'Term Code Name' },
 				  { id: 75, value: 'term_country', text: 'Term Country' },
 				  { id: 76, value: 'term_delay_second', text: 'Term Delay Second' },
-				  { id: 77, value: 'term_media_ip', text: 'Term Media IP' },
+				  { id: 77, value: 'termination_remote_payload_ip_address', text: 'Term Media IP' },
 				  { id: 78, value: 'termination_call_id', text: 'Termination Call ID' },
 				  { id: 79, value: 'termination_local_payload_ip', text: 'Termination Local Payload IP' },
 				  { id: 80, value: 'termination_local_payload_port', text: 'Termination Local Payload Port' },
@@ -649,14 +634,15 @@
 				  { id: 82, value: 'termination_profile_port', text: 'Termination Profile Port' },
 				  { id: 83, value: 'time', text: 'Time' },
 				  { id: 84, value: 'translation_ani', text: 'Translation ANI' },
-				  { id: 85, value: 'translation_dnis', text: 'Translation DNIS' },
-				  { id: 86, value: 'trunk_type', text: 'Trunk Type' },
-				  { id: 87, value: 'translation_ani', text: 'Translation ANI' },
+				  { id: 85, value: 'routing_digits', text: 'Translation DNIS' },
+				  { id: 86, value: 'trunk_type', text: 'Trunk Type' },				  
 			    ],				
 				more_advanced_option: true,
 				more_advanced_option_button: "Less Options",
 				loading: false,	
 				refresh: false,
+				ani: '',				
+				dnis2: '',
 
 				fetchType: 'websocket',
 				token: 'Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf',
@@ -680,20 +666,16 @@
 				from: '',
 				
 				carrirers: '',
-				ingress: '',
+				
 				tech_prefix: '',
-				country: '',
-				code_name: '',
-				code: '',
+				
 				response_code: '',
 				response_to_ingress: '',
 				duration: 'all',
 				release_cause: '',
 				egress_trunk: '',
 				orig_call_id: '',
-				ani: '',
-				dnis2: '',
-				dnis: '',
+				
 				interval_second: '',
 				interval_second2: '',
 				response_from_egress: '',
@@ -828,21 +810,37 @@
 								self.ingress_trunk_options.push(trunk);
 							});
 						}
+						console.log("Fetch all trunks success");
 					}
 				})
 				.catch(error => {
 					//console.log(error)
+					console.log("Fetch all trunks failure");
 				})
 			},
 			fetchRelatedTrunks (type) {				
 				var url;
 				if(type == 'egress')
+				{
+					if(this.egress_carrier == undefined) return;
+					this.egress_trunk = '';
+					
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.egress_carrier + '/egress_trunk/list';
+				}
 				else if(type == 'ingress')
+				{
+					if(this.ingress_carrier == undefined) return;
+					this.ingress_trunk = '';
+					console.log(this.ingress_trunk);
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.ingress_carrier + '/ingress_trunk/list';
+				}	
 				this.loading = true;
-				this.$http.get(url)
-				.then(response => {
+				this.$http.get(url,
+				{
+					headers: {
+						"X-Auth-Token": auth.getToken()
+					}
+				}).then(response => {
 					const body = response.body
 					if (body.success) {
 						const trunks = body.payload.items
@@ -856,7 +854,7 @@
 								trunk.text = temp.name;
 								self.egress_trunk_options.push(trunk);
 							});
-							console.log("Egress: " + this.egress_trunk_options.length);
+							//console.log("Egress: " + this.egress_trunk_options.length);
 						}
 						else if(type == 'ingress') {
 							this.ingress_trunk_options = [];
@@ -866,15 +864,15 @@
 								trunk.text = temp.name;
 								self.ingress_trunk_options.push(trunk);
 							});
-							console.log("Inress: " + this.ingress_trunk_options.length);
+							//console.log("Inress: " + this.ingress_trunk_options.length);
 						}
 						this.loading = false;
-						console.log("Success");
+						console.log("Fetch releated trunks success");
 					}
 				})
 				.catch(error => {					
-					console.log("Failure");
-					console.log(error);
+					console.log("Fetch releated trunks failure");
+					//console.log(error);
 					this.loading = false;
 				})
 			},
@@ -886,8 +884,12 @@
 				else
 					url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
 				//console.log(url);
-				this.$http.get(url)
-					.then(response => {
+				this.$http.get(url,
+				{
+					headers: {
+						"X-Auth-Token": auth.getToken()
+					}
+				}).then(response => {
 						const body = response.body
 						if (body.success) {
 							var self = this;
@@ -907,12 +909,14 @@
 							this.tmpPageOne.cntPerPage = payload.per_page;
 
 							if(this.tmpPageOne.totalPages > this.tmpPageOne.currentPage)
-								this.fetchCarriers();							
+								this.fetchCarriers();			
+							console.log("Fetch carriers success");					
 							//console.log(this.carrier_options);
 						}
 					})
 					.catch(error => {
 						//console.log(error)
+						console.log("Fetch carriers failure");					
 						this.loading = false;
 					})
 			},
@@ -922,29 +926,158 @@
 			closeModal: function() {
 				this.showModal = '';
 			},
-			fetchCDRs: function(start_time = 1501027200, end_time = 1501113599, egress_rcause = 'NORMAL_CLEARING'){
+			fetchCode: function(country){
+				// var url;
+				// url = api.getEndpointUrl() + '/v1/switch/code/list?country=' + country;
+					
+				// this.loading = true;
+				// this.$http.get(url,
+				// {
+				// 	headers: {
+				// 		"X-Auth-Token": auth.getToken()
+				// 	}
+				// }).then(response => {
+				// 	const body = response.body
+				// 	if (body.success) {
+				// 		const codes = body.payload.items
+						
+				// 		var self = this;
+				// 		if(type == 'egress') {
+				// 			this.egress_trunk_options = [];
+				// 			trunks.forEach(function (temp, i) {
+				// 				var trunk = {};
+				// 				trunk.id = temp.resource_id;
+				// 				trunk.text = temp.name;
+				// 				self.egress_trunk_options.push(trunk);
+				// 			});
+				// 			console.log("Egress: " + this.egress_trunk_options.length);
+				// 		}
+				// 		else if(type == 'ingress') {
+				// 			this.ingress_trunk_options = [];
+				// 			trunks.forEach(function (temp, i) {
+				// 				var trunk = {};
+				// 				trunk.id = temp.resource_id;
+				// 				trunk.text = temp.name;
+				// 				self.ingress_trunk_options.push(trunk);
+				// 			});
+				// 			console.log("Inress: " + this.ingress_trunk_options.length);
+				// 		}
+				// 		this.loading = false;
+				// 		console.log("Success");
+				// 	}
+				// })
+				// .catch(error => {					
+				// 	console.log("Failure");
+				// 	console.log(error);
+				// 	this.loading = false;
+				// })
+			},
+			makeColumns: function(){
+				var columns = new Array();				
+				this.show_table_columns = [];
+				for(var i = 0; i < this.selected_show_fields.length; i++)
+				{
+					var show_field = this.selected_show_fields[i];
+					
+					for(var j = 0; j < this.show_field_options.length; j++)
+					{
+						var show_field_option = this.show_field_options[j];
+						
+						if(show_field_option.value == show_field)
+						{
+							this.show_table_columns.push(show_field_option.text);							
+							break;
+						}						
+					}					
+				}				
+			},			
+			makeURL: function(){
+				var filterURL = '';
+				if(this.ingress_carrier != undefined && this.ingress_carrier != '')
+				{
+					if(this.ingress_trunk != undefined && this.ingress_trunk != '')
+					{
+						filterURL += "&ingress_id=" + this.ingress_trunk;						
+					}
+					else if(this.ingress_trunk_options.length != 0)
+					{
+						var ingress_ids = '';
+						this.ingress_trunk_options.forEach(function (ingress, i) {
+							if(i == 0)
+								ingress_ids += ingress.id;
+							else	
+								ingress_ids += "," + ingress.id;
+						});		
+						filterURL += "&ingress_id=" + ingress_ids;				
+					}					
+				}
+				if(this.code != '')
+					filterURL += "&orig_code=" + this.code;
+				else if(this.code_name != '')
+				{
+
+				}
+				else if(this.country != '')
+				{
+
+				}
+
+				if(this.ani != '')
+					filterURL += "&source_number=" + this.ani;
+				
+				if(this.dnis == 'with_prefix' && this.dnis2 != '')
+					filterURL += "&dest_number=" + this.dnis2;
+				else if(this.dnis == 'without_prefix' && this.dnis2 != '')
+					filterURL += "&routing_digits=" + this.dnis2;
+
+				if(this.egress_carrier != undefined && this.egress_carrier != '')
+				{
+					if(this.egress_trunk != undefined && this.egress_trunk != '')
+					{
+						filterURL += "&egress_id=" + this.egress_trunk;						
+					}
+					else if(this.egress_trunk_options.length != 0)
+					{
+						var egress_ids = '';
+						this.egress_trunk_options.forEach(function (egress, i) {
+							if(i == 0)
+								egress_ids += egress.id;
+							else	
+								egress_ids += "," + egress.id;
+						});		
+						filterURL += "&egress_id=" + egress_ids;				
+					}					
+				}				
+				return filterURL;
+			},
+			fetchCDRs: function(start_time = 1501027200, end_time = 1501113599, filterURL, egress_rcause = 'NORMAL_CLEARING'){
 				this.loading = true;
 				console.log("getting CDR lists");				
 				var page = this.pageOne.currentPage - 1;
 				var per_page = this.pageOne.cntpage;								
-																				
-				var authToken = "Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf";	
-				var strURL = api.getCDR_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&egress_rcause=" + egress_rcause + "&format=json&human_readable=1";
-							
-				this.$http.get(api.getCDR_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&egress_rcause=" + egress_rcause + "&format=json&human_readable=1",
+				var self = this;																				
+				var strURL = api.getCDR_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&egress_rcause=" + egress_rcause + "&format=json&human_readable=1" + filterURL;
+				console.log("Report URL: " + strURL);		
+				this.cdrs = [];	
+				this.$http.get(strURL,
 				{
 					headers: {
 						"Authorization": this.token						
 					}
 				}).then(function(response) {					
-					console.log("Success");
+					console.log("Report search success");
 					this.loading = false;																		
-					var cdrs = response.body.data;										
-					this.cdrs = cdrs;										
+					var cdrs = response.body.data;	
+					cdrs.forEach(function (cdr, i) {
+						if(i == cdrs.length - 1) return;
+						self.cdrs.push(cdr);
+					});										
+					//this.cdrs = cdrs;															
 				}, function(error) {					
 					this.loading = false;	
-					this.cdrs = null;											
-					console.log(error);
+					this.cdrs = null;					
+					console.log("Report search failure");						
+					//console.log(error);
 				});			
 			},
 			searchReport: function(){				
@@ -961,8 +1094,13 @@
 				}	
 				else{
 					end_time = new Date(this.end_date).getTime() / 1000;
-				}							
-				this.fetchCDRs(start_time, end_time);	
+				}				
+				this.selected_show_fields = this.backup_selected_show_fields;
+				this.makeColumns();
+				//console.log(this.show_table_columns);
+				var filterURL = this.makeURL();							
+				this.fetchCDRs(start_time, end_time, filterURL);	
+				//alert(this.show_fields);
 			},
 			makeRequest(type, url, query_json, token) {				
 				let hRequest = prepareRequest(type, url, query_json, token); //requirement check spelling

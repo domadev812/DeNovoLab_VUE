@@ -168,7 +168,7 @@
 							<div class="white_pad less_pad">
 								<h1 class="page-header">Fields</h1>
 								<label for="groupname">Show Fields:</label>
-								<select multiple class="multi">
+								<select multiple class="multi" v-model = "backup_orig_selected_show_fields">
 									<option v-for="option in orig_show_field_options" :value='option.value'>{{option.text}}</option>
 								</select>
 							</div>
@@ -251,44 +251,16 @@
 						<table class="table table-striped table-hover carrier_groups centrum">
 						  <thead>							
 							<tr>
-								<th rowspan="2" colspan="1">Group Time</th>								
-								<th rowspan="2" colspan="1">ASR</th>
-								<th rowspan="2" colspan="1">ACD</th>							
-								<th rowspan="2" colspan="1">PDD</th>
-								<th rowspan="1" colspan="2">Time</th>
-								<th rowspan="2" colspan="1">Total Cost</th>
-								<th rowspan="2" colspan="1">Inter Cost</th>
-								<th rowspan="2" colspan="1">Local Cost</th>
-								<th rowspan="1" colspan="4">Calls</th>
-							</tr>
-							<tr>
-								<th rowspan="1" colspan="1">Actual</th>
-								<th rowspan="1" colspan="1">Billable</th>
-								<th rowspan="1" colspan="1">Total</th>
-								<th rowspan="1" colspan="1">Not Zero</th>
-								<th rowspan="1" colspan="1">Success</th>
-								<th rowspan="1" colspan="1">Busy</th>
-							</tr>
+								<th v-for="column in orig_show_table_columns ">{{ column }}</th>
+							</tr>							
 						  </thead>
 						  <tbody>		
 							<tr v-if="!filterBy(originations, report).length">
 								<td style="text-align: center" colspan="15">No Data Found</td>
-							</tr>					   
+							</tr>	
 							<tr v-for="report in originations">
-							  <td>{{report.group_time}}</td>							  
-							  <td>{{report.asr}}</td>
-							  <td>{{report.acd}}</td>							  
-							  <td>{{report.pdd}}</td>
-							  <td>{{report.ingress_time}}</td>
-							  <td>{{report.ingress_billed_time}}</td>
-							  <td>{{report.ingress_cost}}</td>
-							  <td>{{report.ingress_call_cost_inter}}</td>
-							  <td>{{report.ingress_call_cost_local}}</td>
-							  <td>{{report.ingress_calls}}</td>
-							  <td>{{report.non_zero_calls}}</td>
-							  <td></td>
-							  <td>{{report.ingress_busy_calls}}</td>
-							</tr>
+							  <td v-for="show_field in orig_selected_show_fields">{{ report[show_field] }}</td>							  
+							</tr>				   							
 						  </tbody>
 						</table>
 					</div>
@@ -565,8 +537,8 @@
 							<div class="white_pad less_pad">
 								<h1 class="page-header">Fields</h1>
 								<label for="groupname">Show Fields:</label>
-								<select multiple class="multi">
-									<option v-for="option in temp_show_field_options" :value='option.value'>{{option.text}}</option>
+								<select multiple class="multi" v-model = "backup_term_selected_show_fields">
+									<option v-for="option in term_show_field_options" :value='option.value'>{{option.text}}</option>
 								</select>
 							</div>
 						</div>
@@ -647,42 +619,16 @@
 						<table class="table table-striped table-hover carrier_groups centrum">
 						  <thead>
 							<tr>
-								<th rowspan="2" colspan="1">Group Time</th>								
-								<th rowspan="2" colspan="1">ASR</th>
-								<th rowspan="2" colspan="1">ACD</th>								
-								<th rowspan="2" colspan="1">PDD</th>
-								<th rowspan="1" colspan="2">Time</th>
-								<th rowspan="2" colspan="1">Total Cost</th>
-								<th rowspan="2" colspan="1">Inter Cost</th>
-								<th rowspan="2" colspan="1">Local Cost</th>
-								<th rowspan="1" colspan="4">Calls</th>
-							</tr>
-							<tr>
-								<th rowspan="1" colspan="1">Actual</th>
-								<th rowspan="1" colspan="1">Billable</th>
-								<th rowspan="1" colspan="1">Total</th>
-								<th rowspan="1" colspan="1">Not Zero</th>
-								<th rowspan="1" colspan="1">Success</th>
-								<th rowspan="1" colspan="1">Busy</th>
+								<th v-for="column in term_show_table_columns">{{ column }}</th>
 							</tr>
 						  </thead>
 						  <tbody>
+						  	<tr v-if="!filterBy(terminations, report).length">
+								<td style="text-align: center" colspan="13">No Data Found</td>
+							</tr>	
 							<tr v-for="report in terminations">
-							  <td>{{report.group_time}}</td>
-							  <td>{{report.asr}}</td>
-							  <td>{{report.acd}}</td>							  
-							  <td>{{report.pdd}}</td>
-							  <td>{{report.pdd}}</td>
-							  <td>{{report.egress_time}}</td>
-							  <td>{{report.egress_billed_time}}</td>
-							  <td>{{report.egress_cost}}</td>
-							  <td>{{report.egress_call_cost_inter}}</td>
-							  <td>{{report.egress_call_cost_local}}</td>
-							  <td>{{report.egress_calls}}</td>
-							  <td>{{report.non_zero_calls}}</td>
-							  <td></td>
-							  <td>{{report.engress_busy_calls}}</td>
-							</tr>
+							  <td v-for="show_field in term_selected_show_fields">{{ report[show_field] }}</td>							  
+							</tr>						
 						  </tbody>
 						</table>
 					</div>
@@ -846,9 +792,7 @@
 			  	],
 				more_advanced_option: true,
 				more_advanced_option_button: "Less Options",
-				loading: false,			
-				orgination_search_field: ['pdd', 'ingress_time', 'ingress_billed_time', 'ingress_cost', 'ingress_call_cost_inter', 'ingress_call_cost_local', 'ingress_calls', 'non_zero_calls', 'ingress_busy_calls'],
-				termination_search_field: ['pdd', 'egress_time', 'egress_billed_time', 'egress_cost', 'egress_call_cost_inter', 'egress_call_cost_local', 'egress_calls', 'non_zero_calls', 'egress_busy_calls'],
+				loading: false,											
 				period: '',
 				carriers: '',
 				start_date: '',
@@ -914,59 +858,63 @@
 				 plan_table_columns: ['ASR', 'ACD', 'PDD', 'NPR Count', 'NPR', 'NRF Count', 'NRF', 'SD Count', 'SDP', 'Revenue', 'Profit',
 				 'Margin', 'PP Min', 'PP K Calls', 'PPKA', 'Limited', 'Total Duration', 'Total Billable Time', 'Total Cost', 
 				 'Inter Cost', 'Intra Cost', 'Local Cost', 'IJ Cost', 'Average Rate', 'Total Calls', 'Not Zero Calls', 'Busy Calls'],
+				orig_show_table_columns: [],
+				backup_orig_selected_show_fields: ['pdd', 'ingress_billed_time', 'ingress_cost'],
+				orig_selected_show_fields:[],
+				orgination_search_field: ['pdd', 'npr_calls', 'non_zero_calls_6', 'ingress_time', 'ingress_billed_time', 'ingress_cost', 'ingress_call_cost_inter', 'ingress_call_cost_intra'
+										  , 'ingress_call_cost_local', 'ingress_call_cost_ij', 'ingress_calls', 'non_zero_calls', 'ingress_busy_calls', 'egress_cost'],
 				orig_show_field_options: [
-				  { id: 1, value: 'asr', text: 'ASR' },
-				  { id: 2, value: 'acd', text: 'ACD' },
+				  { id: 1, value: 'asr', text: 'ASR' },  //calc
+				  { id: 2, value: 'acd', text: 'ACD' },  //calc
 				  { id: 3, value: 'pdd', text: 'PDD' },
-				  { id: 4, value: 'npr_count', text: 'NPR Count' },
-				  { id: 5, value: 'npr', text: 'NPR' },
-				  { id: 6, value: 'nrf_count', text: 'NRF Count' },
-				  { id: 7, value: 'nrf', text: 'NRF' },
-				  { id: 8, value: 'sd_count', text: 'SD Count' },
-				  { id: 9, value: 'sdp', text: 'SDP' },
-				  { id: 10, value: 'revenue', text: 'Revenue' },
-				  { id: 11, value: 'profit', text: 'Profit' },
-				  { id: 12, value: 'margin', text: 'Margin' },
-				  { id: 13, value: 'pp_min', text: 'PP Min' },
-				  { id: 14, value: 'pp_k_calls', text: 'PP K Calls' },
-				  { id: 15, value: 'ppka', text: 'PPKA' },
-				  { id: 16, value: 'limited', text: 'Limited' },
-				  { id: 17, value: 'total_duration', text: 'Total Duration' },
-				  { id: 18, value: 'total_billable_time', text: 'Total Billable Time' },
-				  { id: 19, value: 'total_cost', text: 'Total Cost' },
-				  { id: 20, value: 'inter_cost', text: 'Inter Cost' },
-				  { id: 21, value: 'intra_cost', text: 'Intra Cost' },
-				  { id: 22, value: 'local_cost', text: 'Local Cost' },
-				  { id: 23, value: 'ij_cost', text: 'IJ Cost' },
-				  { id: 24, value: 'average_rate', text: 'Average Rate' },
-				  { id: 25, value: 'total_calls', text: 'Total Calls' },
-				  { id: 26, value: 'not_zero_calls', text: 'Not Zero Calls' },
-				  { id: 27, value: 'busy_calls', text: 'Busy Calls' },				  
+				  { id: 4, value: 'npr_calls', text: 'NPR Count' },
+				  { id: 5, value: 'npr', text: 'NPR' },			//calc	
+				  { id: 8, value: 'non_zero_calls_6', text: 'SD Count' },
+				  { id: 9, value: 'sdp', text: 'SDP' },			//calc				  
+				  { id: 11, value: 'profit', text: 'Profit' },  	//calc
+				  { id: 12, value: 'margin', text: 'Margin' },		//calc
+				  { id: 13, value: 'pp_min', text: 'PP Min' },		//calc
+				  { id: 14, value: 'pp_k_calls', text: 'PP K Calls' },	//calc
+				  { id: 15, value: 'ppka', text: 'PPKA' },				//calc  
+				  { id: 17, value: 'ingress_time', text: 'Total Duration' },
+				  { id: 18, value: 'ingress_billed_time', text: 'Total Billable Time' },
+				  { id: 19, value: 'ingress_cost', text: 'Total Cost' },
+				  { id: 20, value: 'ingress_call_cost_inter', text: 'Inter Cost' },
+				  { id: 21, value: 'ingress_call_cost_intra', text: 'Intra Cost' },
+				  { id: 22, value: 'ingress_call_cost_local', text: 'Local Cost' },
+				  { id: 23, value: 'ingress_call_cost_ij', text: 'IJ Cost' },
+				  { id: 24, value: 'average_rate', text: 'Average Rate' },		//calc
+				  { id: 25, value: 'ingress_calls', text: 'Total Calls' },
+				  { id: 26, value: 'non_zero_calls', text: 'Not Zero Calls' },
+				  { id: 27, value: 'ingress_busy_calls', text: 'Busy Calls' },				  
 				],
-				temp_show_field_options: [
+				term_show_table_columns: [],
+				backup_term_selected_show_fields: ['non_zero_calls_6', 'egress_call_cost_inter', 'egress_call_cost_local'],
+				termination_search_field: ['pdd', 'npr_calls', 'non_zero_calls_6', 'egress_time', 'egress_billed_time', 'egress_cost', 'egress_call_cost_inter', 'egress_call_cost_intra'
+										  , 'egress_call_cost_local', 'egress_call_cost_ij', 'egress_calls', 'non_zero_calls', 'egress_busy_calls', 'ingress_cost'],
+				term_selected_show_fields: [],
+				term_show_field_options: [
 				  { id: 1, value: 'asr', text: 'ASR' },
 				  { id: 2, value: 'acd', text: 'ACD' },
 				  { id: 3, value: 'pdd', text: 'PDD' },				 
-				  { id: 4, value: 'sd_count', text: 'SD Count' },
-				  { id: 5, value: 'sdp', text: 'SDP' },
-				  { id: 6, value: 'revenue', text: 'Revenue' },
+				  { id: 4, value: 'non_zero_calls_6', text: 'SD Count' },
+				  { id: 5, value: 'sdp', text: 'SDP' },				  
 				  { id: 7, value: 'profit', text: 'Profit' },
 				  { id: 8, value: 'margin', text: 'Margin' },
 				  { id: 9, value: 'pp_min', text: 'PP Min' },
 				  { id: 10, value: 'pp_k_calls', text: 'PP K Calls' },
-				  { id: 11, value: 'ppka', text: 'PPKA' },
-				  { id: 12, value: 'limited', text: 'Limited' },
-				  { id: 13, value: 'total_duration', text: 'Total Duration' },
-				  { id: 14, value: 'total_billable_time', text: 'Total Billable Time' },
-				  { id: 15, value: 'total_cost', text: 'Total Cost' },
-				  { id: 16, value: 'inter_cost', text: 'Inter Cost' },
-				  { id: 17, value: 'intra_cost', text: 'Intra Cost' },
-				  { id: 18, value: 'local_cost', text: 'Local Cost' },
-				  { id: 19, value: 'ij_cost', text: 'IJ Cost' },
+				  { id: 11, value: 'ppka', text: 'PPKA' },				  
+				  { id: 13, value: 'egress_time', text: 'Total Duration' },
+				  { id: 14, value: 'egress_billed_time', text: 'Total Billable Time' },
+				  { id: 15, value: 'egress_cost', text: 'Total Cost' },
+				  { id: 16, value: 'egress_call_cost_inter', text: 'Inter Cost' },
+				  { id: 17, value: 'egress_call_cost_intra', text: 'Intra Cost' },
+				  { id: 18, value: 'egress_call_cost_local', text: 'Local Cost' },
+				  { id: 19, value: 'egress_call_cost_ij', text: 'IJ Cost' },
 				  { id: 20, value: 'average_rate', text: 'Average Rate' },
-				  { id: 21, value: 'total_calls', text: 'Total Calls' },
-				  { id: 22, value: 'not_zero_calls', text: 'Not Zero Calls' },
-				  { id: 23, value: 'busy_calls', text: 'Busy Calls' },				  
+				  { id: 21, value: 'egress_calls', text: 'Total Calls' },
+				  { id: 22, value: 'non_zero_calls', text: 'Not Zero Calls' },
+				  { id: 23, value: 'egress_busy_calls', text: 'Busy Calls' },				  
 				],
 				group_by1: 1,
 				group_by2: 2,
@@ -1137,14 +1085,14 @@
 										
 				var page = this.pageOne.currentPage - 1;
 				var per_page = this.pageOne.cntpage;																				
-				var strURL;				
+				var strURL;		
+					
 				if(this.active_tab_index == 0)
 				 	strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.orgination_search_field[field_ind];
 				else 														
-					strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.termination_search_field[field_ind];				
-				//console.log();
+					strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.termination_search_field[field_ind];								
 				var authToken = "Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf";		
-				console.log(strURL);		
+				console.log(strURL);
 				this.$http.get(strURL,
 				{
 					headers: {
@@ -1188,10 +1136,58 @@
 					step = diffDays * 1440 + diffHrs * 60 + diffMins;			
 				}
 				else
-					step = this.by_hour_options[this.by_hours - 1].value; 				
-				this.fetchReport(start_time, end_time, step);
+					step = this.by_hour_options[this.by_hours - 1].value; 		
+				this.orig_selected_show_fields = this.backup_orig_selected_show_fields;		
+				this.term_selected_show_fields = this.backup_term_selected_show_fields;	
+				this.makeColumns(this.active_tab_index);	
+				if(step != 0)		
+					this.fetchReport(start_time, end_time, step);
 				
-			},	
+			},
+			makeFilters: function()
+			{
+
+			},
+			makeColumns: function(index){
+				if(index == 0)
+				{
+					this.orig_show_table_columns = [];
+					for(var i = 0; i < this.orig_selected_show_fields.length; i++)
+					{
+						var show_field = this.orig_selected_show_fields[i];
+						
+						for(var j = 0; j < this.orig_show_field_options.length; j++)
+						{
+							var show_field_option = this.orig_show_field_options[j];
+							
+							if(show_field_option.value == show_field)
+							{
+								this.orig_show_table_columns.push(show_field_option.text);							
+								break;
+							}						
+						}					
+					}
+				}			
+				else
+				{
+					this.show_table_columns = [];
+					for(var i = 0; i < this.term_selected_show_fields.length; i++)
+					{
+						var show_field = this.term_selected_show_fields[i];
+						
+						for(var j = 0; j < this.term_show_field_options.length; j++)
+						{
+							var show_field_option = this.term_show_field_options[j];
+							
+							if(show_field_option.value == show_field)
+							{
+								this.term_show_table_columns.push(show_field_option.text);							
+								break;
+							}						
+						}					
+					}
+				}				
+			},		
 			changeEgress() {
 				this.fetchRelatedTrunks('egress');
 			},
@@ -1297,12 +1293,25 @@
 			fetchRelatedTrunks (type) {				
 				var url;
 				if(type == 'egress')
+				{
+					if(this.egress_carrier == undefined) return;
+					this.egress_trunk = '';					
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.egress_carrier + '/egress_trunk/list';
+				}
 				else if(type == 'ingress')
+				{
+					if(this.ingress_carrier == undefined) return;
+					this.ingress_trunk = '';
+					console.log(this.ingress_trunk);
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.ingress_carrier + '/ingress_trunk/list';
+				}	
 				this.loading = true;
-				this.$http.get(url)
-				.then(response => {
+				this.$http.get(url,
+				{
+					headers: {
+						"X-Auth-Token": auth.getToken()
+					}
+				}).then(response => {
 					const body = response.body
 					if (body.success) {
 						const trunks = body.payload.items
@@ -1316,7 +1325,7 @@
 								trunk.text = temp.name;
 								self.egress_trunk_options.push(trunk);
 							});
-							console.log("Egress: " + this.egress_trunk_options.length);
+							//console.log("Egress: " + this.egress_trunk_options.length);
 						}
 						else if(type == 'ingress') {
 							this.ingress_trunk_options = [];
@@ -1326,27 +1335,28 @@
 								trunk.text = temp.name;
 								self.ingress_trunk_options.push(trunk);
 							});
-							console.log("Inress: " + this.ingress_trunk_options.length);
+							//console.log("Inress: " + this.ingress_trunk_options.length);
 						}
 						this.loading = false;
-						console.log("Success");
+						console.log("Fetch releated trunks success");
 					}
 				})
 				.catch(error => {					
-					console.log("Failure");
-					console.log(error);
+					console.log("Fetch releated trunks failure");
+					//console.log(error);
 					this.loading = false;
 				})
 			},
-			fetchCarriers() {				
+			fetchCarriers() {
 				this.loading = true;
 				var url;
-				 if(this.tmpPageOne.currentPage === 0)
-					url = api.getEndpointUrl() + "/v1/carrier/list";
-				 else
-				 	url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
-				console.log(url);
-				this.$http.get(url, {
+				if(this.tmpPageOne.currentPage === 0)
+					url = api.getEndpointUrl() + "/v1/carrier/list"
+				else
+					url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
+				//console.log(url);
+				this.$http.get(url,
+				{
 					headers: {
 						"X-Auth-Token": auth.getToken()
 					}
@@ -1370,13 +1380,14 @@
 							this.tmpPageOne.cntPerPage = payload.per_page;
 
 							if(this.tmpPageOne.totalPages > this.tmpPageOne.currentPage)
-								this.fetchCarriers();
-							
-							console.log(this.carrier_options);
+								this.fetchCarriers();			
+							console.log("Fetch carriers success");					
+							//console.log(this.carrier_options);
 						}
 					})
 					.catch(error => {
-						console.log(error)
+						//console.log(error)
+						console.log("Fetch carriers failure");					
 						this.loading = false;
 					})
 			},
