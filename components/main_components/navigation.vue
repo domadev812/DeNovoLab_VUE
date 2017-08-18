@@ -473,8 +473,8 @@
 					<div class="subnavlink">
 						<a><img src="assets/images/client/changepassIcon.png" alt=""> CLIENT</a>
 						<router-link to="/agents/client/client_list"><p>Client List</p></router-link>
-						<router-link to="/agents/client/client_payment"><p>Client Payment</p></router-link>
-						<router-link to="/agents/client/client_transaction"><p>Client Transaction</p></router-link>
+						<!-- <router-link to="/agents/client/client_payment"><p>Client Payment</p></router-link>
+						<router-link to="/agents/client/client_transaction"><p>Client Transaction</p></router-link> -->
 					</div>
 
 					<div class="subnavlink">

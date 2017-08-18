@@ -95,12 +95,13 @@
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<label>Switch Server:</label>
 									<select2 :options="options" v-model="switch_server">
 										<option disabled value="0">Select one</option>
 									</select2>
-								</div>
+								</div>  -->
 								<div class="clearfix"></div>
 								</div>
 							</div>
@@ -286,12 +287,13 @@
 									</select2>
 								</div>
 								<div class="clearfix little-space"></div>
+								<!-- 
 								<div class="col-md-4 col-sm-4">
 									<label>Switch Server:</label>
 									<select2 :options="options" v-model="switch_server">
 										<option disabled value="0">Select one</option>
 									</select2>
-								</div>
+								</div>  -->
 								<div class="clearfix"></div>
 								</div>
 							</div>

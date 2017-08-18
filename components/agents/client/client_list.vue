@@ -18,16 +18,21 @@
 							<label>Referral link:</label>
 							<input readonly type="text" name="link" v-model="link" class="form-control"> 
 						</div>
+						<div class="col-md-2 col-sm-4">
+							<a class="btn btn-primary full-width m-top-25">
+								Copy
+							</a>
+						</div>
 						<div class="clearfix little-space"></div>
 						<div class="col-md-2 col-sm-4">
 							<label>Type:</label>
-							<select2 :options="options" v-model="type">
+							<select2 :options="type_options" v-model="type">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
 						<div class="col-md-2 col-sm-4">
 							<label>Terms:</label>
-							<select2 :options="options" v-model="terms">
+							<select2 :options="terms_options" v-model="terms">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
@@ -57,12 +62,12 @@
 							</div>
 						</div>
 						<div class="clearfix"></div>
-						<div class="col-md-12 col-sm-12">
-							<div class="button_set" v-on:click="fetchreports()">
-								<a class="btn btn-primary">
+						<div class="inlined">					
+							<div class="col-md-2 col-sm-4 button_set" v-on:click="fetchreports()">
+								<a class="btn btn-primary full-width">
 									Query
 								</a>
-							</div>
+							</div>							
 						</div>
 						<div class="clearfix"></div>							
 					<!-- </div> -->
@@ -73,12 +78,6 @@
 						<table class="table table-striped table-hover aliases">
 							<thead>
 								<tr>
-									<!-- <th class="width-65">
-										<div class="checkbox checkbox-success">
-											<input type="checkbox" id="checker" name="checker" v-model="checker" @click="toggleChecker()">
-											<label for="checker"></label>
-										</div>
-									</th> -->
 									<th>Name</th>
 									<th>Available Balance</th>
 									<th>Credit Limit</th>
@@ -89,33 +88,29 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-if="!clients.length">
-									<td style="text-align: center" colspan="7">No Data Found</td>
+								<tr v-if="!filterBy(clients, client).length">
+									<td style="text-align: center" colspan="13">No Data Found</td>
 								</tr>										
-								
-								<tr v-for="client in clients">
-									<!-- <td class="centred_checkbox">
-										<div class="checkbox checkbox-success">
-											<input :id="report.id" :name="report.id" type="checkbox" v-model="report.selected">
-											<label :for="report.id"></label>
-										</div>
-									</td> -->
-									<td>{{client.client.name}}</td>
-									<td>{{client.client.actual_balance}}</td>
-									<td>{{client.client.credit_limit}}</td>
-									<td>{{client.client.update_at}}</td>
-									<td>{{client.assigned_on}}</td>
-									<td>Registered</td>
+							
+								<tr v-for="client in reports">									
+									<td>{{client.name}}</td>
+									<td>{{client.actual_balance}}</td>
+									<td>{{client.credit_limit}}</td>
+									<td>{{client.registered}}</td>
+									<td>{{client.created}}</td>
+									<td>{{client.status}}</td>
 									<td></td>
-								</tr>
+								</tr> 
 							</tbody>
 						</table>
 					</div>
 					</div>
 					 <div class="pull-right pagination">
-						<pagination :current-page="pageOne.currentPage" :total-pages="pageOne.totalPages" @page-changed="pageOneChanged">
+						<pagination :current-page="pageOne.currentPage"
+									:total-pages="pageOne.totalPages"
+									@page-changed="pageOneChanged">
 						</pagination>
-					</div> 
+					</div>
 					<div class="clearfix"></div>
 				</div>				
             </div>
@@ -146,9 +141,21 @@ module.exports = {
         return {
             loading: false,
 			apiUrl: '/v1/home/agent/clients',
-			link: '',
-			type: '',
+			type: 'all',
+			type_options: [
+				{ id: 'all', text: 'All' },
+				{ id: 'all_active_clients', text: 'All Active Clients' },
+				{ id: 'all_inactive_clients', text: 'All Inactive Clients'},				
+			],
+
 			terms: '',
+			terms_options: [
+				{ id: 'all', text: 'All' },
+				{ id: 'prepaid', text: 'Prepaid' },
+				{ id: 'postpaid', text: 'Postpaid'},				
+			],
+			link: '',
+						
 			name: '',
 			register_date: '',
 			payment_terms: '',
@@ -168,9 +175,9 @@ module.exports = {
                 cntpage: 10,
             },
             reports: [
-				{id: 1, name:'name', balance: 0, limit: 0, registered:'2017-07-01', created:'2017-07-01', status:'registered'},
-				{id: 1, name:'name', balance: 0, limit: 0, registered:'2017-07-01', created:'2017-07-01', status:'registered'},
-				{id: 1, name:'name', balance: 0, limit: 0, registered:'2017-07-01', created:'2017-07-01', status:'registered'},
+				{id: 1, name:'name', actual_balance: 0, credit_limit: 5, registered:'2017-07-01', created:'2017-07-01', status:'registered'},
+				{id: 1, name:'name', actual_balance: 10, credit_limit: 2, registered:'2017-07-01', created:'2017-07-01', status:'registered'},
+				{id: 1, name:'name', actual_balance: 20, credit_limit: 3, registered:'2017-07-01', created:'2017-07-01', status:'registered'},
 			],
 			clients:[],
         }
@@ -199,7 +206,8 @@ module.exports = {
             }).then(function(response) {
                 this.loading = false;
 				console.log("Success");																		
-                this.clients = response.body.payload.items;					                                 										
+                this.clients = response.body.payload.items;	
+				console.log(this.clients);				                                 										
             }, function(error) {					
                 this.loading = false;	
                 this.clients = null;		

@@ -55,11 +55,12 @@
 										Query
 									</a>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
 										{{more_advanced_option_button}}
 									</a>
-								</div>
+								</div> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -88,7 +89,7 @@
 								<div class="clearfix little-space"></div>
 								<div class="col-md-6">
 									<label>Tech Prefix:</label>
-									<select2 :options="options" v-model="carriers">
+									<select2 :options="prefix_options" v-model="prefix">
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>
@@ -319,11 +320,12 @@
 										Query
 									</a>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
 										{{more_advanced_option_button}}
 									</a>
-								</div>
+								</div> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -352,7 +354,7 @@
 								<div class="clearfix little-space"></div>
 								<div class="col-md-6">
 									<label>Tech Prefix:</label>
-									<select2 :options="options" v-model="carriers">
+									<select2 :options="prefix_options" v-model="prefix">
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>
@@ -672,6 +674,10 @@
 				  { id: 7, value: 'ingress_cost', text: 'Ingress Cost' },				  
 				  { id: 8, value: 'egress_cost', text: 'Egress Cost' },
 				],
+				prefix_options: [
+				  { id: 1, value: 'all', text: 'All' },				  
+			    ],
+				prefix: '',
 				more_advanced_option: true,
 				more_advanced_option_button: "Less Options",  
 				loading: false,			

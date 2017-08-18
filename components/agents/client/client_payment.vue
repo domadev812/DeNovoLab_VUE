@@ -16,7 +16,7 @@
 					<!-- <div class="advanced_search_filter_panel bottom_0"> -->
 						<div class="col-md-2 col-sm-4">
 							<label>Period:</label>
-							<select2 :options="options" v-model="period">
+							<select2 :options="period_options" v-model="period">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
@@ -32,13 +32,13 @@
 						</div>
 						<div class="col-md-2 col-sm-4">
 							<label>GMT:</label>
-							<select2 :options="options" v-model="gmt">
+							<select2 :options="gmt_options" v-model="gmt">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
 						<div class="col-md-2 col-sm-4">
 							<label>By:</label>
-							<select2 :options="options" v-model="by">
+							<select2 :options="by_hour_options" v-model="by_hour">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
@@ -50,7 +50,7 @@
 						</div>
 						<div class="col-md-2 col-sm-4">
 							<label>Output:</label>
-							<select2 :options="options" v-model="output">
+							<select2 :options="web_options" v-model="web">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
@@ -160,13 +160,65 @@ module.exports = {
     data: function () {
         return {
             loading: false,
+
+			web: 'web',
+			web_options: [
+				{ id: 'web', text: 'Web' },
+				{ id: 'excel_csv', text: 'Excel CSV' },
+				{ id: 'email_when_done', text: 'Email when done' },
+				{ id: 'export_from_storage', text: 'Export from Storage' },
+			],				
+			gmt: 13,
+			gmt_options: [
+				{ id: 1, text: 'GMT -12:00' },
+				{ id: 2, text: 'GMT -11:00' },
+				{ id: 3, text: 'GMT -10:00' },
+				{ id: 4, text: 'GMT -9:00' },
+				{ id: 5, text: 'GMT -8:00' },
+				{ id: 6, text: 'GMT -7:00' },
+				{ id: 7, text: 'GMT -6:00' },
+				{ id: 8, text: 'GMT -5:00' },
+				{ id: 9, text: 'GMT -4:00' },
+				{ id: 10, text: 'GMT -3:00' },
+				{ id: 11, text: 'GMT -2:00' },
+				{ id: 12, text: 'GMT -1:00' },
+				{ id: 13, text: 'GMT +0:00' },
+				{ id: 14, text: 'GMT +1:00' },
+				{ id: 15, text: 'GMT +2:00' },
+				{ id: 16, text: 'GMT +3:00' },
+				{ id: 17, text: 'GMT +4:00' },
+				{ id: 18, text: 'GMT +5:00' },
+				{ id: 19, text: 'GMT +6:00' },
+				{ id: 20, text: 'GMT +7:00' },
+				{ id: 21, text: 'GMT +8:00' },
+				{ id: 22, text: 'GMT +9:00' },
+				{ id: 23, text: 'GMT +10:00' },
+				{ id: 24, text: 'GMT +11:00' },
+				{ id: 25, text: 'GMT +12:00' },
+			],
+			period: 'Custom',
+			period_options: [
+				{id: 'Custom', text: 'Custom'},
+				{id: 'Today', text: 'Today'},
+				{id: 'Yesterday', text: 'Yesterday'},
+				{id: 'Current week', text: 'Current week'},
+				{id: 'Previous week', text: 'Previous week'},
+				{id: 'Current month', text: 'Current month'},
+				{id: 'Previous month', text: 'Previous month'},
+			],
+			by_hours: 1,
+			by_hour_options: [
+				{ id: 1, text: 'All Time', value: 0 },
+				{ id: 2, text: 'By hours', value: 60 },
+				{ id: 3, text: 'By day', value: 1440 },
+				{ id: 4, text: 'By month', value: 43200 },
+				{ id: 5, text: 'By year', value: 525600 },
+			],
+
             apiUrl: '',
-            search: '',
-			period: '',
+            search: '',			
 			trunk: '',
-			gmt: '',
-			by: '',
-			output: '',
+			
 			groupby1: '',
 			groupby2: '',
             

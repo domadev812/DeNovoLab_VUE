@@ -70,9 +70,15 @@
 				  <li class="breadcrumb-item"><a href="#">Statistics</a></li>
 				  <li class="breadcrumb-item active">CDRs Search</li>
 			</ol>
-			<h1 class="page-header">CDRs Search</h1>
-			<spinner v-show="loading" class="spinner"></spinner>			
-			<tabs>
+			<div style = "display:inline-block">
+			    <h1 class="page-header">CDRs Search</h1>
+			</div>
+			<a class="btn btn-primary pull-right mini m-top-10" v-show="refresh">
+				<span class="dnl_icon dnl_reload"></span> Refresh 
+			</a>
+			<spinner v-show="loading" class="spinner"></spinner>	
+					
+			<tabs @activateTab="changeTab">
 				<tab label="CDR Search" class="" icon="dnl_icon dnl_list" selected>
 					<div class="advanced_search_filter_panel" >
 						<div class="col-md-2 col-sm-4">
@@ -372,7 +378,7 @@
 							</div>
 						</div>
 						<a class="btn btn-primary mini m-top-20">
-							<span class="dnl_icon dnl_reload"></span> Refresh 
+							Query 
 						</a>
 						<!--<div class="col-md-2 col-sm-3">
 								<a class="btn btn-primary full-width m-top-25" v-on:click="">
@@ -650,6 +656,7 @@
 				more_advanced_option: true,
 				more_advanced_option_button: "Less Options",
 				loading: false,	
+				refresh: false,
 
 				fetchType: 'websocket',
 				token: 'Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf',
@@ -770,6 +777,12 @@
 			changePageCount() {
 				
 			},
+			changeTab (tab, index) {				
+				if (this.active_tab_index === index) { return }				
+				this.active_tab_index = index
+				if(index == 0) this.refresh = false;
+				else this.refresh = true;			
+			},			
 			showAdvanced(){
 				if(this.more_advanced_option)
 				{

@@ -16,7 +16,7 @@
 					<!-- <div class="advanced_search_filter_panel bottom_0"> -->
 						<div class="col-md-2 col-sm-4">
 							<label>Period:</label>
-							<select2 :options="options" v-model="period">
+							<select2 :options="period_options" v-model="period">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
@@ -30,23 +30,43 @@
 								<el-date-picker style="width: 100%;" type="datetime" v-model="end_date" :picker-options="{}" placeholder="Enter Date and TIme"></el-date-picker>
 							</div>
 						</div>
-						<div class="col-md-2 col-sm-4">
-							<label>GMT:</label>
-							<select2 :options="options" v-model="gmt">
-								<option disabled value="0">Select one</option>
-							</select2>
-						</div>
-						<div class="col-md-2 col-sm-4">
-							<label>By:</label>
-							<select2 :options="options" v-model="by">
-								<option disabled value="0">Select one</option>
-							</select2>
-						</div>
-						<div class="col-md-2 col-sm-4">
-							<label>Output:</label>
-							<select2 :options="options" v-model="output">
-								<option disabled value="0">Select one</option>
-							</select2>
+						<div class="col-md-6 col-sm-12 none-left-padding none-right-padding">
+							<div class="inlined">
+								<div class="col-md-4 col-sm-4 no-min-width">
+									<label>GMT:</label>
+									<select class="selectable" v-model="gmt">
+										<option v-for="item in gmt_options" v-bind:value="item.id">
+											{{ item.text }}
+										</option>
+									</select>
+								</div>
+								<div class="col-md-4 col-sm-4">
+									<label>By Hours:</label>
+									<select2 :options="by_hour_options" v-model="by_hours">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+								<div class="col-md-4 col-sm-4">
+									<label>Web:</label>
+									<select2 :options="web_options" v-model="web">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+							</div>
+							<div class="inlined">
+								<div class="col-md-4 col-sm-4">
+									<a class="btn btn-primary full-width m-top-20" v-on:click="searchReport()">
+										Query
+									</a>
+								</div>
+								<!--
+								<div class="col-md-4 col-sm-4">
+									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
+										{{more_advanced_option_button}}
+									</a>
+								</div> -->
+								<div class="clearfix"></div>
+							</div>
 						</div>
 						<div class="clearfix little-space"></div>
 						<div class="col-md-12">
@@ -56,49 +76,15 @@
 										<label>Carriers:</label>
 										<select2 :options="carrier_list" v-model="carrier">
 											<option disabled value="0">Select one</option>
-										</select2>
+										</select2>									
 									</div>
 									<div class="col-md-4 col-sm-4">
 										<label>Ingress Trunk:</label>
 										<select2 :options="trunk_list" v-model="trunk">
 											<option disabled value="0">Select one</option>
 										</select2>
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<label>Tech Prefix:</label>
-										<select2 :options="prefix_list" v-model="prefix">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-4 col-sm-4">
-										<label>Country:</label>
-										<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<label>Code Name:</label>
-										<input type="text" name="code_name" v-model="code_name" class="form-control" placeholder="Enter Code Name">
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<label>Code:</label>
-										<input type="text" name="code" v-model="code" class="form-control" placeholder="Enter Code">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-4 col-sm-4">
-										<label>Rate Type:</label>
-										<select2 :options="rate_type_list" v-model="rate_type">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<label>Rate display as:</label>
-										<select2 :options="rate_display_list" v-model="rate_display_as">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>								
+									</div>									
+								</div>																
 							</div>
 						</div>						
 						<div class="clearfix little-space"></div>
@@ -107,53 +93,19 @@
 								<div class="row">
 									<div class="col-md-4 col-sm-4">
 										<label>Group By #1:</label>
-										<select2 :options="options" v-model="groupby1">
+										<select2 :options="group_options" v-model="groupby1">
 											<option disabled value="0">Select one</option>
 										</select2>
 									</div>
 									<div class="col-md-4 col-sm-4">
 										<label>Group By #2:</label>
-										<select2 :options="options" v-model="groupby2">
+										<select2 :options="group_options" v-model="groupby2">
 											<option disabled value="0">Select one</option>
 										</select2>
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<label>Group By #3:</label>
-										<select2 :options="options" v-model="groupby3">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-4 col-sm-4">
-										<label>Group By #4:</label>
-										<select2 :options="options" v-model="groupby4">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<label>Group By #5:</label>
-										<select2 :options="options" v-model="groupby5">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<label>Group By #6:</label>
-										<select2 :options="options" v-model="groupby6">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
+									</div>									
+								</div>								
 							</div>
-						</div>
-						<div class="clearfix"></div>
-						<div class="col-md-12 col-sm-12">
-							<div class="button_set">
-								<a class="btn btn-primary">
-									Query
-								</a>
-							</div>
-						</div>
+						</div>						
 						<div class="clearfix"></div>							
 					<!-- </div> -->
 					</div>
@@ -244,12 +196,75 @@ module.exports = {
         return {
             loading: false,
             apiUrl: '',
-            search: '',
-			period: '',
+
+			web: 'web',
+			web_options: [
+				{ id: 'web', text: 'Web' },
+				{ id: 'excel_csv', text: 'CSV' },
+				{ id: 'excel_xls', text: 'XLS' },
+				//{ id: 'email_when_done', text: 'Email when done' },
+				//{ id: 'export_from_storage', text: 'Export from Storage' },
+			],				
+			gmt: 13,
+			gmt_options: [
+				{ id: 1, text: 'GMT -12:00' },
+				{ id: 2, text: 'GMT -11:00' },
+				{ id: 3, text: 'GMT -10:00' },
+				{ id: 4, text: 'GMT -9:00' },
+				{ id: 5, text: 'GMT -8:00' },
+				{ id: 6, text: 'GMT -7:00' },
+				{ id: 7, text: 'GMT -6:00' },
+				{ id: 8, text: 'GMT -5:00' },
+				{ id: 9, text: 'GMT -4:00' },
+				{ id: 10, text: 'GMT -3:00' },
+				{ id: 11, text: 'GMT -2:00' },
+				{ id: 12, text: 'GMT -1:00' },
+				{ id: 13, text: 'GMT +0:00' },
+				{ id: 14, text: 'GMT +1:00' },
+				{ id: 15, text: 'GMT +2:00' },
+				{ id: 16, text: 'GMT +3:00' },
+				{ id: 17, text: 'GMT +4:00' },
+				{ id: 18, text: 'GMT +5:00' },
+				{ id: 19, text: 'GMT +6:00' },
+				{ id: 20, text: 'GMT +7:00' },
+				{ id: 21, text: 'GMT +8:00' },
+				{ id: 22, text: 'GMT +9:00' },
+				{ id: 23, text: 'GMT +10:00' },
+				{ id: 24, text: 'GMT +11:00' },
+				{ id: 25, text: 'GMT +12:00' },
+			],
+			period: 'Custom',
+			period_options: [
+				{id: 'Custom', text: 'Custom'},
+				{id: 'Today', text: 'Today'},
+				{id: 'Yesterday', text: 'Yesterday'},
+				{id: 'Current week', text: 'Current week'},
+				{id: 'Previous week', text: 'Previous week'},
+				{id: 'Current month', text: 'Current month'},
+				{id: 'Previous month', text: 'Previous month'},
+			],
+			by_hours: 1,
+			by_hour_options: [
+				{ id: 1, text: 'All Time', value: 0 },
+				{ id: 2, text: 'By hours', value: 60 },
+				{ id: 3, text: 'By day', value: 1440 },
+				{ id: 4, text: 'By month', value: 43200 },
+				{ id: 5, text: 'By year', value: 525600 },
+			],
+			group_options: [
+				  { id: 1, value: 'ingress_carrier', text: 'Ingress Carrier' },
+				  { id: 2, value: 'ingress_trunk', text: 'Ingress Trunk' },				  			  				  
+				],
+            search: '',			
 			carrier: '',
-			carrier_list: [],
+			carrier_list: [
+				{ id: 1, text: 'Atul_Ingress'},
+			],
 			trunk: '',
-			trunk_list: [],
+			trunk_list: [
+				{ id: 1, text: 'Atul_Ingress'},
+			],
+
 			prefix: '',
 			prefix_list: [],
 			country: '',
@@ -258,17 +273,10 @@ module.exports = {
 			rate_type: '',
 			rate_type_list: [],
 			rate_display_as: '',
-			rate_display_list: [],
-			gmt: '',
-			by: '',
-			output: '',
+			rate_display_list: [],			
 			groupby1: '',
 			groupby2: '',
-			groupby3: '',
-			groupby4: '',
-			groupby5: '',
-			groupby6: '',
-            
+			
             start_date: '',
             end_date: '',
             selected1: 1,
@@ -279,11 +287,15 @@ module.exports = {
                 { id: 4, text: '50' },
                 { id: 5, text: '100' }
             ],
-            pageOne: {
-                currentPage: 1,
-                totalPages: 10,
-                cntpage: 10,
-            },
+			pageOne: {
+				currentPage: 1,
+				totalPages: 10
+			},
+			tmpPageOne: {
+				currentPage: 0,
+				totalPages: 10,
+				cntPerPage: 30,
+			},
             reports: [
 				{abr: '0%', asr:'0%', adc:'0', aloc:'0', pdd:'0', ner: '0', npr: '0', total_duration:'0.00', total_billable:'0.00', total_cost:'0.00000', avg_rate:'0.00000', total_calls:'0', not_zero:'0', success:'0', busy_calls:'0'},
 				{abr: '0%', asr:'0%', adc:'0', aloc:'0', pdd:'0', ner: '0', npr: '0', total_duration:'0.00', total_billable:'0.00', total_cost:'0.00000', avg_rate:'0.00000', total_calls:'0', not_zero:'0', success:'0', busy_calls:'0'},
@@ -297,8 +309,8 @@ module.exports = {
             setMessage: 'app_message/setAppMessage'
         }),
         fetchreports() {
-            var page = this.pageOne.currentPage - 1;
-            var per_page = this.pageOne.cntpage;
+            var page = this.pageOne.currentPage - 1;			
+            var per_page = this.tmpPageOne.cntPerPage;
             console.log("page => " + page + " , per_page => " + per_page);
             this.loading = true;
 
@@ -334,13 +346,60 @@ module.exports = {
                 this.pageOne.cntpage = countPerPage
                 this.$nextTick(this.fetchreports)
             }
-        },
+        }, //curl -h "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MDU0MDU4MjMuOTEzMDMsInVzZXJfaWQiOjEwNH0.jvBF85r20zw1tExttbS81DcJwyMSQnjJjSjoEkJ70S8" "http://88.99.175.131:8000/v1/carrier/list"
+		fetchCarriers() {				
+				this.loading = true;
+				var url;		
+				var authToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTEsImV4cCI6MTUwNDUzNTI3NS4xODI3NDd9.yUFoGLlb56DGHC3nhFAlFBTBiR7Emr5AYke5c5sHxzM";		
+				if(this.tmpPageOne.currentPage === 0)
+					url = api.getEndpointUrl() + "/v1/carrier/list"
+				else
+					url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
+				console.log(url);
+				console.log("Token: " + auth.getToken());
+				this.$http.get(url, {
+					headers: {
+						"X-Auth-Token": auth.getToken(),
+						"accept": "application/json",
+					}
+				}).then(response => {
+						const body = response.body
+						if (body.success) {
+							var self = this;
+							this.loading = false;
+							const payload = body.payload
+							var carriers = payload.items;
+							if(this.tmpPageOne.currentPage === 0)
+								this.carrier_options.push('');
+							carriers.forEach(function (temp, i) {
+								var carrier = {};
+								carrier.id = temp.client_id;
+								carrier.text = temp.name;
+								self.carrier_options.push(carrier);
+							});
+							this.tmpPageOne.currentPage = payload.page + 1
+							this.tmpPageOne.totalPages = Math.ceil(payload.total / payload.per_page)
+							this.tmpPageOne.cntPerPage = payload.per_page;
+
+							if(this.tmpPageOne.totalPages > this.tmpPageOne.currentPage)
+								this.fetchCarriers();	
+
+							console.log("Inbound success");													
+						}
+					})
+					.catch(error => {
+						console.log(error)
+						console.log("Inbound error");
+						this.loading = false;
+					})
+			},
     },
     mounted: function () {
         $('[data-toggle="tooltip"]').tooltip();
     },
     created: function () {
         this.fetchreports();
+		//this.fetchCarriers();
     }
 }
 </script>

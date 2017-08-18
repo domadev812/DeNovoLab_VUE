@@ -54,11 +54,12 @@
 										Query
 									</a>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
 										{{more_advanced_option_button}}
 									</a>
-								</div>
+								</div> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -87,7 +88,7 @@
 									<div class="clearfix little-space"></div>
 									<div class="col-md-6">
 										<label>Tech Prefix:</label>
-										<select2 :options="options" v-model="carriers">
+										<select2 :options="prefix_options" v-model="prefix">
 											<option disabled value="0">Select one</option>
 										</select2>
 									</div>
@@ -119,7 +120,7 @@
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="white_pad less_pad">
-								<h1 class="page-header">Outbound</h1>
+								<!--<h1 class="page-header">Outbound</h1> -->
 								<div class="row">
 									<div class="col-md-6">
 										<label>Class4 Server:</label>
@@ -290,11 +291,12 @@
 										Query
 									</a>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
 										{{more_advanced_option_button}}
 									</a>
-								</div>
+								</div> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -323,7 +325,7 @@
 									<div class="clearfix little-space"></div>
 									<div class="col-md-6">
 										<label>Tech Prefix:</label>
-										<select2 :options="options" v-model="carriers">
+										<select2 :options="prefix_options" v-model="prefix">
 											<option disabled value="0">Select one</option>
 										</select2>
 									</div>
@@ -355,7 +357,7 @@
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="white_pad less_pad">
-								<h1 class="page-header">Outbound</h1>
+								<!-- <h1 class="page-header">Outbound</h1> -->
 								<div class="row">								
 									<div class="col-md-6">
 										<label>Class4 Server:</label>
@@ -490,11 +492,12 @@
 										Query
 									</a>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
 										{{more_advanced_option_button}}
 									</a>
-								</div>
+								</div> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -535,7 +538,7 @@
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="white_pad less_pad">
-								<h1 class="page-header">Outbound</h1>
+								<!-- <h1 class="page-header">Outbound</h1>  -->
 								<div class="row">
 								<div class="col-md-6">
 									<label>Class4 Server:</label>
@@ -704,11 +707,12 @@
 										Query
 									</a>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
 										{{more_advanced_option_button}}
 									</a>
-								</div>
+								</div> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -749,7 +753,7 @@
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="white_pad less_pad">
-								<h1 class="page-header">Outbound</h1>
+								<!-- <h1 class="page-header">Outbound</h1>  -->
 								<div class="row">
 								<div class="col-md-6">
 									<label>Class4 Server:</label>
@@ -968,6 +972,10 @@
 				  { id: 8, value: 'term_country', text: 'Term Country' },
 				  { id: 9, value: 'switch_ip', text: 'Switch IP' },
 				],
+				prefix_options: [
+				  { id: 1, value: 'all', text: 'All' },				  
+			    ],
+				prefix: '',
 				page_row_count: 1,
 				page_rows: [
 					{ id: 1, text: '10' },

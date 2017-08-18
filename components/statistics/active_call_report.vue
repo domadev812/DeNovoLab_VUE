@@ -8,6 +8,7 @@
 				  <li class="breadcrumb-item active">Active Call Report</li>
 			</ol>
 			<h1 class="page-header">Active Call Report</h1>
+			<spinner v-show="loading" class="spinner"></spinner>
 			<div class="white_pad table_wrap">
 				<div class="advanced_search_filter_panel">
 				<div class="col-md-4 col-sm-4">
@@ -48,8 +49,8 @@
 							<div class="col-md-6 first">
 								<label>IP:</label>
 								<select class="selectable" v-model="ingress_trunk_ip">
-									<option v-for="item in ingress_trunk_ip_options" v-bind:value="item.id">
-										{{ item.text }}
+									<option v-for="item in ingress_trunk_ip_options" v-bind:value="item.value">
+										{{ item.value }}
 									</option>
 								</select>
 							</div>
@@ -180,6 +181,7 @@
 
 <script>   
 	const vSelect = require('vue!../main_components/select.vue'),
+		  vSpinner = require('vue!../main_components/fadeloader.vue'),
 		  Pagination = require('vue!../main_components/pagination.vue');
 	const api = require("../../api");
 	module.exports = {
@@ -189,10 +191,12 @@
 		},
 		components: {
 			'select2': vSelect,
+			'spinner': vSpinner,
 			'pagination': Pagination
 		},
 		data: function(){
             return {
+				loading: false,
 				egress_carrier: '',
 				ingress_carrier: '',
 				egress_trunk : '',
@@ -293,7 +297,7 @@
 			changeEgressTrunk() {
 				this.fetchIpLists('egress');
 			},
-			changeIngressTrunk() {
+			changeIngressTrunk() {				
 				this.fetchIpLists('ingress');
 			},
 			fetchAllTrunks (type) {
@@ -382,36 +386,43 @@
 			fetchIpLists (type){
 				var url;
 				if(type == 'egress')
-					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.egress_carrier;
+					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.egress_trunk;
 				else if(type == 'ingress')
-					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.ingress_carrier;
+					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.ingress_trunk;
 				this.loading = true;
 				this.$http.get(url)
 				.then(response => {
 					const body = response.body
 					if (body.success) {
 						const trunks = body.payload.items
-						
+						console.log(body);
 						var self = this;
 						if(type == 'egress') {
 							this.egress_trunk_ip_options = [];
-							trunks.forEach(function (temp, i) {
-								var trunk = {};
-								trunk.id = temp.resource_id;
-								trunk.text = temp.name;
-								self.egress_trunk_ip_options.push(trunk);
-							});
-							console.log("Egress: " + this.egress_trunk_ip_options.length);
+							this.egress_trunk_ip_options["id"] = 1;
+							this.egress_trunk_ip_options["value"] = body.payload.ip;
+							// trunks.forEach(function (temp, i) {
+							// 	var trunk = {};
+							// 	trunk.id = temp.resource_id;
+							// 	trunk.text = temp.name;
+							// 	self.egress_trunk_ip_options.push(trunk);
+							// });
+							// console.log("Egress: " + this.egress_trunk_ip_options.length);
 						}
 						else if(type == 'ingress') {
-							this.inress_trunk_ip_options = [];
-							trunks.forEach(function (temp, i) {
-								var trunk = {};
-								trunk.id = temp.resource_id;
-								trunk.text = temp.name;
-								self.inress_trunk_ip_options.push(trunk);
-							});
-							console.log("Inress: " + this.inress_trunk_ip_options.length);
+							this.ingress_trunk_ip_options = [];
+							var value = new Array();
+							value["id"] = 1;
+							value["value"] = body.payload.ip;
+							self.ingress_trunk_ip_options.push(value);							
+							
+							// trunks.forEach(function (temp, i) {
+							// 	var trunk = {};
+							// 	trunk.id = temp.resource_id;
+							// 	trunk.text = temp.name;
+							// 	self.inress_trunk_ip_options.push(trunk);
+							// });
+							console.log("IP Address: " + this.ingress_trunk_ip_options.length);
 						}
 						this.loading = false;
 						console.log("Success");

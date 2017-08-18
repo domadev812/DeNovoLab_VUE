@@ -13,7 +13,7 @@
 				<tab label="Origination" class="" icon="dnl_icon dnl_to_left" selected>
 					<div class="advanced_search_filter_panel">
 						<div class="col-md-3 col-sm-4">
-							<label>Crrier:</label>
+							<label>Carrier:</label>
 							<select class="selectable no-min-width" v-model="ingress_carrier">
 									<option v-for="item in carrier_options" v-bind:value="item.id">
 										{{ item.text }}
@@ -97,7 +97,7 @@
 				<tab label="Termination" class="" icon="dnl_icon dnl_to_right">
 					<div class="advanced_search_filter_panel">
 						<div class="col-md-3 col-sm-4">
-							<label>Crrier:</label>
+							<label>Carrier:</label>
 							<select class="selectable no-min-width" v-model="ingress_carrier">
 									<option v-for="item in carrier_options" v-bind:value="item.id">
 										{{ item.text }}

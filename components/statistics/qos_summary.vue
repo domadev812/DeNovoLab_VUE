@@ -350,7 +350,7 @@
 								<div class="clearfix little-space"></div>
 								<div class="col-md-6">
 									<label>Tech Prefix:</label>
-									<select2 :options="options" v-model="carriers">
+									<select2 :options="prefix_options" v-model="prefix">
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>

@@ -87,8 +87,8 @@
 								</div>
 								<div class="clearfix little-space"></div>
 								<div class="col-md-6 first">
-									<label>Tech Prefix:</label>
-									<select2 :options="options" v-model="carriers">
+									<label>Tech Prefix:</label>									
+									<select2 :options="tech_prefix_options" v-model="tech_prefix">
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>
@@ -104,6 +104,19 @@
 								<div class="col-md-6 second">
 									<label>Routing Plan:</label>
 									<select2 :options="route_plan_options" v-model="routing_plan">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+								<div class="clearfix little-space"></div>
+								<div class="col-md-6 first">
+									<label>Rate Table:</label>									
+									<select2 :options="rate_table_options" v-model="rate_table">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+								<div class="col-md-6 second">
+									<label>Rate display as:</label>									
+									<select2 :options="rate_display_options" v-model="rate_display">
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>
@@ -307,7 +320,7 @@
 						</div>
 						<div class="col-md-3 col-sm-2">
 							<label>Rate Display as:</label>							
-							<select2 :options="rate_table_options" v-model="rate_table">
+							<select2 :options="rate_display_options" v-model="rate_display">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
@@ -472,7 +485,7 @@
 								<div class="clearfix little-space"></div>
 								<div class="col-md-6 first">
 									<label>Tech Prefix:</label>
-									<select2 :options="options" v-model="carriers">
+									<select2 :options="tech_prefix_options" v-model="tech_prefix">
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>
@@ -488,6 +501,19 @@
 								<div class="col-md-6 second">
 									<label>Routing Plan:</label>
 									<select2 :options="route_plan_options" v-model="routing_plan">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+								<div class="clearfix little-space"></div>
+								<div class="col-md-6 first">
+									<label>Rate Table:</label>									
+									<select2 :options="rate_table_options" v-model="rate_table">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+								<div class="col-md-6 second">
+									<label>Rate display as:</label>									
+									<select2 :options="rate_display_options" v-model="rate_display">
 										<option disabled value="0">Select one</option>
 									</select2>
 								</div>
@@ -688,7 +714,7 @@
 						</div>
 						<div class="col-md-3 col-sm-2">
 							<label>Rate Display as:</label>							
-							<select2 :options="rate_table_options" v-model="rate_table">
+							<select2 :options="rate_display_options" v-model="rate_display">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
@@ -968,9 +994,17 @@
 				],
 				route_plan_options: [],
 				rate_table_options: [],
+				rate_display_options: [
+					{ id: 1, text: 'Average' },
+					{ id: 2, text: 'Actual' },
+				],
+				tech_prefix: 'All',
+				tech_prefix_options: [
+					{ id: 'All', text: 'All' },
+				],
 				routing_plan: '',				
 				rate_table: '',
-
+				rate_display: '',
 				tech_prefix: '',
 				country: '',
 				code_name: '',
@@ -1044,17 +1078,17 @@
 				if(this.backupDatas.length == 0) return;					
 				var displayArray = new Array();
 
-				for(var i = 0; i < this.backupDatas[0].length; i++)
+				for(var i = 0; i < this.backupDatas[0].length - 1; i++)
 				{																																		
-					var value = new Array();
-					
-					value["group_time"] = formatDateFromStamp(this.backupDatas[0][0].time); 										
+					var value = new Array();					
+					value["group_time"] = formatDateFromStamp(this.backupDatas[0][i].time);	 										
 					for(var j = 0; j < this.orgination_search_field.length; j++)	
 					{					
 						if(this.active_tab_index == 0)							
 							value[this.orgination_search_field[j]] = this.backupDatas[j][i].value;
 						else
 							value[this.termination_search_field[j]] = this.backupDatas[j][i].value;
+							
 					}
 					if(this.active_tab_index == 0)
 					{
@@ -1097,7 +1131,7 @@
 					this.terminations = displayArray;
 				this.loading = false;			
 			},
-			fetchReport: function(start_time = 1501538400, end_time = 1501624900, field_ind = 0, step = 1440, method = 'total')
+			fetchReport: function(start_time = 1501538400, end_time = 1501624900, step = 1440, field_ind = 0, method = 'total')
 			{								
 				this.loading = true;
 										
@@ -1108,7 +1142,7 @@
 				 	strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.orgination_search_field[field_ind];
 				else 														
 					strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.termination_search_field[field_ind];				
-
+				//console.log();
 				var authToken = "Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf";		
 				console.log(strURL);		
 				this.$http.get(strURL,
@@ -1123,29 +1157,40 @@
 					else
 					{
 						field_ind += 1;
-						this.fetchReport(start_time, end_time, field_ind);					 	
+						this.fetchReport(start_time, end_time, step, field_ind);					 	
 					}
 				}, function(error) {	
 					this.loading = false;									
 				});			
 			},
 			searchReport: function(){				
-				var start_time, end_time;						
+				var start_time, end_time, step;									
 				if(this.start_date == ""){
-					start_time = new Date().getTime() / 1000;
+					start_time = new Date().getTime() / 1000;					
 				}	
 				else{
-					start_time = new Date(this.start_date).getTime() / 1000;
+					start_time = new Date(this.start_date).getTime() / 1000;			
 				}
 
 				if(this.end_date == ""){
-					end_time = new Date().getTime() / 1000;
+					end_time = new Date().getTime() / 1000;				
 				}	
 				else{
-					end_time = new Date(this.end_date).getTime() / 1000;
-				}			
-																					
-				this.fetchReport(start_time, end_time);
+					end_time = new Date(this.end_date).getTime() / 1000;					
+				}	
+					
+				if(this.by_hours == 1)
+				{					
+					var diffMs = (end_time - start_time) * 1000;									
+					var diffDays = Math.floor(diffMs / 86400000); // days
+					var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+					var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes		
+					step = diffDays * 1440 + diffHrs * 60 + diffMins;			
+				}
+				else
+					step = this.by_hour_options[this.by_hours - 1].value; 				
+				this.fetchReport(start_time, end_time, step);
+				
 			},	
 			changeEgress() {
 				this.fetchRelatedTrunks('egress');
@@ -1201,11 +1246,13 @@
 							rate_table.id = temp.rate_table_id;
 							rate_table.text = temp.name;
 							self.rate_table_options.push(rate_table);
-						});						
+						});			
+						console.log("Rate table success");			
 						console.log(this.rate_table_options);						
 					}
 				})
 				.catch(error => {
+					console.log("Rate table failure");
 					console.log(error)
 				})
 			},		
