@@ -72,50 +72,35 @@
 								<h1 class="page-header">Inbound</h1>
 								<div class="row">
 								<div class="col-md-6 first">
-									<label>Carriers:</label>
+									<label>Carriers:</label>				
 									<select class="selectable no-min-width" v-model="ingress_carrier" @change="changeIngress">
 										<option v-for="item in carrier_options" v-bind:value="item.id">
 											{{ item.text }}
 										</option>
-									</select>
+									</select>									
 								</div>
 								<div class="col-md-6 second">
 									<label>Ingress Trunk:</label>
-									<select class="selectable no-min-width" v-model="ingress">
+									<select class="selectable no-min-width" v-model="ingress_trunk">
 										<option v-for="item in ingress_trunk_options" v-bind:value="item.id">
 											{{ item.text }}
 										</option>
 									</select>
 								</div>
-								<div class="clearfix little-space"></div>
+								<div class="clearfix little-space"></div>								
 								<div class="col-md-6 first">
-									<label>Tech Prefix:</label>
-									<select2 :options="prefix_options" v-model="prefix">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="col-md-6 second">
 									<label for="country">Country:</label>
 									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
 								</div>
-								<div class="clearfix little-space"></div>
-								<div class="col-md-6 first">
-									<label for="code_name">Code Name:</label>
-									<input type="text" name="code_name" v-model="code_name" class="form-control" placeholder="Enter Code Name">
-								</div>
 								<div class="col-md-6 second">
-									<label>Routing Plan:</label>
-									<select2 :options="route_plan_options" v-model="routing_plan">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="clearfix little-space"></div>						
+									<label for="code_name">Origination ANI:</label>
+									<input type="text" name="origination_ani" v-model="ani" class="form-control" placeholder="Enter Origination ANI">
+								</div>	
+								<div class="clearfix little-space"></div>																
 								<div class="col-md-6 first">
-									<label>Rate Table:</label>
-									<select2 :options="rate_table_options" v-model="rate_table">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
+									<label for="code_name">Origination DNIS:</label>
+									<input type="text" name="origination_dnis" v-model="dnis" class="form-control" placeholder="Enter Origination DNIS">
+								</div>							
 								<div class="clearfix"></div>
 								</div>
 							</div>
@@ -124,33 +109,23 @@
 							<div class="white_pad less_pad">
 								<h1 class="page-header">Outbound</h1>
 								<div class="row">
-								<div class="col-md-6 first">
-									<label>Carriers:</label>
-									<select class="selectable no-min-width" v-model="egress_carrier" @change="changeEgress">
-										<option v-for="item in carrier_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>
-								</div>
-								<div class="col-md-6 second">
-									<label>Egress Trunk:</label>
-									<select class="selectable no-min-width" v-model="egress_trunk">
-										<option v-for="item in egress_trunk_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>
-								</div>
-								<div class="clearfix little-space"></div>						
-								<div class="col-md-6 first">
-									<label for="country">Country:</label>
-									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
-								</div>
-								<div class="col-md-6 second">
-									<label for="code_name">Code Name:</label>
-									<input type="text" name="code_name" v-model="code_name" class="form-control" placeholder="Enter Code Name">
-								</div>
-								<div class="clearfix"></div>
-								
+									<div class="col-md-6 first">
+										<label>Carriers:</label>
+										<select class="selectable no-min-width" v-model="egress_carrier" @change="changeEgress">
+											<option v-for="item in carrier_options" v-bind:value="item.id">
+												{{ item.text }}
+											</option>
+										</select>
+									</div>
+									<div class="col-md-6 second">
+										<label>Egress Trunk:</label>
+										<select class="selectable no-min-width" v-model="egress_trunk">
+											<option v-for="item in egress_trunk_options" v-bind:value="item.id">
+												{{ item.text }}
+											</option>
+										</select>
+									</div>								
+									<div class="clearfix"></div>								
 								</div>
 							</div>
 						</div>
@@ -160,51 +135,53 @@
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #1:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by1">
-											<option disabled value="0">Select one</option>
-										</select2>										
+										<select class="selectable no-min-width" v-model="group_by1">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #2:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by2">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by2">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #3:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by3">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by3">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #4:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by4">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by4">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #5:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by5">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by5">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #6:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by6">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
+								</div>								
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -232,6 +209,7 @@
 						<table class="table table-striped table-hover carrier_groups centrum">
 						  <thead>
 							<tr>
+								<th colspan="1" rowspan="2">Group Time</th>
 								<th colspan="3" rowspan="1">Inbound</th>
 								<th colspan="3" rowspan="1">Outbound</th>
 								<th colspan="2" rowspan="1">Profit</th>
@@ -257,20 +235,21 @@
 							</thead>
 						  <tbody>		
 							<tr v-if="!filterBy(searchResults, report).length">
-								<td style="text-align: center" colspan="16">No Data Found</td>
+								<td style="text-align: center" colspan="20">No Data Found</td>
 							</tr>					  
 							<tr v-for="report in searchResults">
+							  <td>{{report.group_time}}</td>
 							  <td>{{report.ingress_billed_time}}</td>
 							  <td>{{report.ingress_cost}}</td>
-							  <td></td>
+							  <td>{{report.inbound_avg_rate}}</td>
 							  <td>{{report.egress_billed_time}}</td>
 							  <td>{{report.egress_cost}}</td>
-							  <td></td>
-							  <td></td>
-							  <td></td>
+							  <td>{{report.outbound_avg_rate}}</td>
+							  <td>{{report.profit}}</td>
+							  <td>{{report.profit_percent}}</td>
 							  <td>{{report.ingress_time}}</td>
-							  <td></td>
-							  <td></td>
+							  <td>{{report.asr}}</td>
+							  <td>{{report.acd}}</td>
 							  <td>{{report.pdd}}</td>
 							  <td>{{report.ingress_calls}}</td>
 							  <td>{{report.non_zero_calls}}</td>
@@ -305,8 +284,8 @@
 			this.fetchCarriers();
 			// this.fetchAllTrunks('egress');
 			// this.fetchAllTrunks('ingress');	
-			this.fetchRateTable();
-			this.fetchRoutePlans();			
+			// this.fetchRateTable();
+			// this.fetchRoutePlans();			
 			this.searchReport();
 		},
 		components: {
@@ -391,20 +370,20 @@
 					{ id: 4, text: '50' },
 					{ id: 5, text: '100' }
 				],
+				group_by1: '',
+				group_by2: '',
+				group_by3: '',
+				group_by4: '',
+				group_by5: '',				
 				group_options: [
-				  { id: 1, value: 'ingress_carrier', text: 'Ingress Carrier' },
-				  { id: 2, value: 'ingress_trunk', text: 'Ingress Trunk' },
-				  { id: 3, value: 'ingress_country', text: 'Ingress Country' },				 
-				  { id: 4, value: 'ingress_code_name', text: 'Ingress Code Name' },
-				  { id: 5, value: 'egress_carrier', text: 'Egress Carrier' },
-				  { id: 6, value: 'egress_trunk', text: 'Egress Trunk' },
-				  { id: 7, value: 'egress_country', text: 'Egress Country' },				 
-				  { id: 8, value: 'egress_code_name', text: 'Egress Code Name' },				  				  
+				  { id: 1, value: 'orig_code', text: 'Orig Code' },
+				  { id: 2, value: 'ingress_id', text: 'Ingress ID' },
+				  { id: 3, value: 'egress_id', text: 'Egress ID' },				 
+				  { id: 4, value: 'source_number', text: 'ANI' },
+				  { id: 5, value: 'dest_number', text: 'DNIS' },				  
 				],
-				prefix_options: [
-				  { id: 1, value: 'all', text: 'All' },				  
-			    ],
-				prefix: '',
+				ani: '',
+				dnis: '',
 				plan_table_column_options: [{
 					value: 'Name',
 					label: 'Name'
@@ -435,34 +414,19 @@
 				more_advanced_option: true,
 				more_advanced_option_button: "Less Options",
 				loading: false,			
-				search_field: ['ingress_billed_time', 'ingress_cost', 'egress_billed_time', 'egress_cost', 'ingress_time', 'pdd', 'ingress_calls', 'non_zero_calls', 'ingress_success_calls','ingress_busy_calls'],
+				search_field: ['ingress_billed_time', 'ingress_cost', 'egress_billed_time', 'egress_cost', 'ingress_time', 'pdd', 'ingress_calls', 'non_zero_calls', 
+								'ingress_success_calls','ingress_busy_calls'],
 				backupDatas: [],
 				searchResults: [],
 				rate_table: '',
 				period: '',
-				carriers: '',
 				start_date: '',
-				end_date: '',				
-				by_hours: '',
+				end_date: '',								
 				all_time: '',				
-				code: '',
-				carrirers: '',				
-				tech_prefix: '',
-				country: '',
-				code_name: '',
-				routing_plan: '',				
-				rate_type: '',
-				group_by1: '',
-				group_by2: '',
-				group_by3: '',
-				group_by4: '',
-				group_by5: '',
-				group_by6: '',
+				code: '',							
+				country: '',			
 				selected1: '',
-				selected2: '',
-				rate_display: '',
-				period_time_1: '',
-				period_time_2: '',
+				selected2: '',			
 				options: [
 				  { id: 1, value: 'carrier1', text: 'Carrier 1' },
 				  { id: 2, value: 'carrier2', text: 'Carrier 2' },
@@ -501,33 +465,47 @@
 					this.more_advanced_option_button = "Less Options";
 				}
 			},
+			calcValue: function(first, second, percent = 100)
+			{
+				var value = 0;
+				if(second == 0 || second == "") value = 0;
+				else value = first * percent / second;
+				if(isNaN(value)) value = 0;
+				else value = parseFloat(Math.round(value * 100) / 100).toFixed(2);
+				return value;
+			},			
 			makeDatas: function()
 			{						
 				if(this.backupDatas.length == 0) return;					
 				var displayArray = new Array();
-				for(var i = 0; i < this.backupDatas[0].length; i++)
+				for(var i = 0; i < this.backupDatas[0].length - 1; i++)
 				{						
-					var value = new Array();										
+					var value = new Array();	
+					value["group_time"] = formatDateFromStamp(this.backupDatas[0][i].time);									
 					for(var j = 0; j < this.search_field.length; j++)	
 					{											
 						value[this.search_field[j]] = this.backupDatas[j][i].value;
 					}
+					value["inbound_avg_rate"] = this.calcValue(value["ingress_cost"], value["ingress_billed_time"]);
+					value["outbound_avg_rate"] = this.calcValue(value["egress_cost"], value["egress_billed_time"]);
+					value["profit"] = value["ingress_cost"] - value["egress_cost"];
+					value["profit_percent"] = this.calcValue(value["profit"], value["egress_cost"]);
+					value["asr"] = this.calcValue(value["non_zero_calls"], value["ingress_calls"]);
+					value["acd"] = this.calcValue(value["ingress_time"], value["non_zero_calls"], 1);
 					displayArray[i] = value;
-				}
-				
-				this.searchResults = displayArray;
+				}				
+				this.searchResults = displayArray;				
 				this.loading = false;			
 			},
-			fetchReport: function(start_time = 1501538400, end_time = 1501624900, field_ind = 0, step = 1440, method = 'total', group = 'ingress_id')
+			fetchReport: function(start_time, end_time, step, filterURL, field_ind = 0, method = 'total')
 			{								
 				this.loading = true;
-				
-				console.log("Inbound & Outbound reports");				
+										
 				var page = this.pageOne.currentPage - 1;
 				var per_page = this.pageOne.cntpage;																				
 				var strURL;				
-				strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.search_field[field_ind];													
-																			
+				strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.search_field[field_ind] + filterURL;													
+				console.log(strURL);															
 				var authToken = "Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf";				
 				this.$http.get(strURL,
 				{
@@ -541,7 +519,7 @@
 					else
 					{
 						field_ind += 1;
-						this.fetchReport(start_time, end_time, field_ind);					 	
+						this.fetchReport(start_time, end_time, step, filterURL, field_ind);					 	
 					}
 				}, function(error) {					
 					console.log(error);
@@ -549,21 +527,130 @@
 				});			
 			},
 			searchReport: function(){
-				var start_time, end_time;						
-				if(this.start_date == ""){
-					start_time = new Date().getTime() / 1000;
-				}	
-				else{
-					start_time = new Date(this.start_date).getTime() / 1000;
+				var start_time, end_time, step;													
+				if(this.time == 'Custom')
+				{					
+					if(this.start_date == ""){
+						start_time = new Date();
+					}	
+					else{
+						start_time = new Date(this.start_date);
+					}
+
+					if(this.end_date == ""){
+						end_time = new Date();
+					}	
+					else{
+						end_time = new Date(this.end_date);
+					}	
+				} else if(this.time == 'Today')
+				{
+					start_time = getStartTimeOfToday();
+					end_time = getEndTimeOfToday();
+				} else if(this.time == 'Yesterday')
+				{
+					start_time = getStartTimeOfYesterday();
+					end_time = getEndTimeOfYesterday();
+				} else if(this.time == 'Current week')
+				{
+					start_time = getStartTimeOfCurrentWeek();
+					end_time = getEndTimeOfCurrentWeek();
+				} else if(this.time == 'Previous week')
+				{
+					start_time = getStartTimeOfPreviousWeek();
+					end_time = getEndTimeOfPreviousWeek();
+				} else if(this.time == 'Current month')
+				{
+					start_time = getStartTimeOfCurrentMonth();
+					end_time = getEndTimeOfCurrentMonth();
+				} else if(this.time == 'Previous month')
+				{
+					start_time = getStartTimeOfPreviousMonth();
+					end_time = getEndTimeOfPreviousMonth();
+				} 		
+				
+				start_time = new Date(start_time).getTime() / 1000;
+				end_time = new Date(end_time).getTime() / 1000;
+
+				if(this.by_hours == 1)
+				{					
+					var diffMs = (end_time - start_time) * 1000;									
+					var diffDays = Math.floor(diffMs / 86400000); // days
+					var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+					var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes		
+					step = diffDays * 1440 + diffHrs * 60;		
+					if(diffMins % 60 == 0)
+						step += diffMins;
+					else{
+						diffMins = diffMins - (diffMins % 60);
+					}				
+				}
+				else
+					step = this.by_hour_options[this.by_hours - 1].value; 
+				var filterURL = this.makeURL();
+				console.log(filterURL);
+				this.searchResults = [];
+				if(step != 0)																
+					this.fetchReport(start_time, end_time, step, filterURL);									
+			},
+			makeURL: function(){
+				var filterURL = '';
+				if(this.ingress_carrier != undefined && this.ingress_carrier != '')
+				{
+					if(this.ingress_trunk != undefined && this.ingress_trunk != '')
+					{
+						filterURL += "&ingress_id=" + this.ingress_trunk;						
+					}
+					else if(this.ingress_trunk_options.length != 0)
+					{
+						var ingress_ids = '';
+						this.ingress_trunk_options.forEach(function (ingress, i) {
+							if(i == 0)
+								ingress_ids += ingress.id;
+							else	
+								ingress_ids += "," + ingress.id;
+						});		
+						filterURL += "&ingress_id=" + ingress_ids;				
+					}					
+				}
+				if(this.country != '')
+				{
+
 				}
 
-				if(this.end_date == ""){
-					end_time = new Date().getTime() / 1000;
-				}	
-				else{
-					end_time = new Date(this.end_date).getTime() / 1000;
-				}																
-				this.fetchReport(start_time, end_time);
+				if(this.ani != '')
+					filterURL += "&source_number=" + this.ani;
+				if(this.dnis != '')				
+					filterURL += "&dest_number=" + this.dnis;				
+				if(this.egress_carrier != undefined && this.egress_carrier != '')
+				{
+					if(this.egress_trunk != undefined && this.egress_trunk != '')
+					{
+						filterURL += "&egress_id=" + this.egress_trunk;						
+					}
+					else if(this.egress_trunk_options.length != 0)
+					{
+						var egress_ids = '';
+						this.egress_trunk_options.forEach(function (egress, i) {
+							if(i == 0)
+								egress_ids += egress.id;
+							else	
+								egress_ids += "," + egress.id;
+						});		
+						filterURL += "&egress_id=" + egress_ids;				
+					}					
+				}
+				if (this.group_by1 != '')
+					filterURL += "&group=" + this.group_by1;				
+				if (this.group_by2 != '')
+					filterURL += "&group=" + this.group_by2;
+				if (this.group_by3 != '')
+					filterURL += "&group=" + this.group_by3;
+				if (this.group_by4 != '')
+					filterURL += "&group=" + this.group_by4;
+				if (this.group_by5 != '')
+					filterURL += "&group=" + this.group_by5;
+				return filterURL;
 			},
 			changeEgress() {
 				this.fetchRelatedTrunks('egress');
@@ -671,12 +758,26 @@
 			fetchRelatedTrunks (type) {				
 				var url;
 				if(type == 'egress')
+				{
+					if(this.egress_carrier == undefined) return;
+					this.egress_trunk = '';
+					
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.egress_carrier + '/egress_trunk/list';
+				}
 				else if(type == 'ingress')
+				{
+					if(this.ingress_carrier == undefined) return;
+					this.ingress_trunk = '';
+					console.log(this.ingress_trunk);
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.ingress_carrier + '/ingress_trunk/list';
+				}	
 				this.loading = true;
-				this.$http.get(url)
-				.then(response => {
+				this.$http.get(url,
+				{
+					headers: {
+						"X-Auth-Token": auth.getToken()
+					}
+				}).then(response => {
 					const body = response.body
 					if (body.success) {
 						const trunks = body.payload.items
@@ -690,7 +791,7 @@
 								trunk.text = temp.name;
 								self.egress_trunk_options.push(trunk);
 							});
-							console.log("Egress: " + this.egress_trunk_options.length);
+							//console.log("Egress: " + this.egress_trunk_options.length);
 						}
 						else if(type == 'ingress') {
 							this.ingress_trunk_options = [];
@@ -700,27 +801,28 @@
 								trunk.text = temp.name;
 								self.ingress_trunk_options.push(trunk);
 							});
-							console.log("Inress: " + this.ingress_trunk_options.length);
+							//console.log("Inress: " + this.ingress_trunk_options.length);
 						}
 						this.loading = false;
-						console.log("Releated Trunks Success");
+						console.log("Fetch releated trunks success");
 					}
 				})
 				.catch(error => {					
-					console.log("Releated Trunks Failure");
-					console.log(error);
+					console.log("Fetch releated trunks failure");
+					//console.log(error);
 					this.loading = false;
 				})
 			},
-			fetchCarriers() {				
+			fetchCarriers() {
 				this.loading = true;
-				var url;				
+				var url;
 				if(this.tmpPageOne.currentPage === 0)
 					url = api.getEndpointUrl() + "/v1/carrier/list"
 				else
 					url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
-				console.log(url);
-				this.$http.get(url, {
+				//console.log(url);
+				this.$http.get(url,
+				{
 					headers: {
 						"X-Auth-Token": auth.getToken()
 					}
@@ -744,14 +846,14 @@
 							this.tmpPageOne.cntPerPage = payload.per_page;
 
 							if(this.tmpPageOne.totalPages > this.tmpPageOne.currentPage)
-								this.fetchCarriers();	
-
-							console.log("Inbound success");													
+								this.fetchCarriers();			
+							console.log("Fetch carriers success");					
+							//console.log(this.carrier_options);
 						}
 					})
 					.catch(error => {
-						console.log(error)
-						console.log("Inbound error");
+						//console.log(error)
+						console.log("Fetch carriers failure");					
 						this.loading = false;
 					})
 			},

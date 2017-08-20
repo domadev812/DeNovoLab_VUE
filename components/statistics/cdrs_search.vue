@@ -547,7 +547,8 @@
 				  { id: 3, text: 'Stop' },
 			  	],
 				selected_show_fields: [],
-				backup_selected_show_fields: ['call_duration', 'egress_alias', 'ingress_alias', 'origination_destination_number', 'pdd', 'origination_source_number', 'release_cause', 'time', 'release_cause_from_protocol_stack', 'orig_call_duration'],
+				backup_selected_show_fields: ['call_duration', 'egress_alias', 'ingress_alias', 'origination_destination_number', 'pdd', 'origination_source_number', 'release_cause', 
+				'time', 'release_cause_from_protocol_stack', 'orig_call_duration'],
 				show_table_columns: [],
 				show_field_options: [
 				  { id: 1, value: 'answer_time_of_date', text: 'Answer Time' },
@@ -564,17 +565,17 @@
 				  { id: 12, value: 'egress_client_name', text: 'Egress Client Name' },
 				  { id: 13, value: 'egress_cost', text: 'Egress Cost' },
 				  { id: 14, value: 'egress_dnis_type', text: 'Egress Dnis Type' },
-				  { id: 15, value: 'egress_media_port', text: 'Egress Media Port' },
+				  //{ id: 15, value: 'egress_media_port', text: 'Egress Media Port' },
 				  { id: 16, value: 'egress_name', text: 'Egress Name' },
 				  { id: 17, value: 'egress_rate', text: 'Egress Rate' },
 				  { id: 18, value: 'egress_rate_id', text: 'Egress Rate ID' },
 				  { id: 19, value: 'egress_rate_table_name', text: 'Egress Rate Table Name' },
 				  { id: 20, value: 'egress_rate_type', text: 'Egress Rate Type' },
-				  { id: 21, value: 'egress_register_user', text: 'Egress Register User' },
+				  //{ id: 21, value: 'egress_register_user', text: 'Egress Register User' },
 				  { id: 22, value: 'egress_six_seconds', text: 'Egress Six Seconds' },
 				  { id: 23, value: 'egress_erro_string', text: 'Egress Trunk Trace' },
 				  { id: 24, value: 'release_tod', text: 'End Time' },
-				  { id: 25, value: 'final_route', text: 'Final Route' },
+				  { id: 25, value: 'final_route_indication', text: 'Final Route' },
 				  { id: 26, value: 'ingress_alias', text: 'Ingress Alias' },
 				  { id: 27, value: 'ingress_bill_minutes', text: 'Ingress Bill Minute' },
 				  { id: 28, value: 'ingress_client_bill_result', text: 'Ingress Bill Result' },
@@ -588,10 +589,10 @@
 				  { id: 36, value: 'ingress_id', text: 'Ingress ID' },
 				  { id: 37, value: 'ingress_rate_id', text: 'Ingress Rate ID' },
 				  { id: 38, value: 'ingress_rate_type', text: 'Ingress Rate Type' },
-				  { id: 39, value: 'ingress_register_user', text: 'Ingress Register User' },
+				  //{ id: 39, value: 'ingress_register_user', text: 'Ingress Register User' },
 				  { id: 40, value: 'lrn_dnis', text: 'LRN Number' },
-				  { id: 41, value: 'lrn_source', text: 'LRN Source' },
-				  { id: 42, value: 'lnp_dipping_cost', text: 'Lnp Dipping Cost' },
+				//   { id: 41, value: 'lrn_source', text: 'LRN Source' },
+				//   { id: 42, value: 'lnp_dipping_cost', text: 'Lnp Dipping Cost' },
 				  { id: 43, value: 'origination_codec_list', text: 'ORIG Codecs' },
 				  { id: 44, value: 'origination_destination_number', text: 'ORIG DST Number' },
 				  { id: 45, value: 'origination_source_host_name', text: 'ORIG IP' },
@@ -604,18 +605,18 @@
 				  { id: 52, value: 'orig_delay_second', text: 'Orig Delay Second' },
 				  { id: 53, value: 'origination_remote_payload_ip_address', text: 'Orig Media IP' },
 				  { id: 54, value: 'origination_remote_payload_udp_address', text: 'Orig Media Port' },
-				  { id: 55, value: 'orig_switch_ip', text: 'Orig Switch IP' },
+				  { id: 55, value: 'origination_destination_host_name', text: 'Orig Switch IP' },
 				  { id: 56, value: 'origination_call_id', text: 'Origination Call ID' },
 				  { id: 57, value: 'origination_local_payload_ip_address', text: 'Origination Local Payload IP' },
-				  { id: 58, value: 'origination_local_payload_port', text: 'Origination Local Payload Port' },		
-				  { id: 81, value: 'termination_profile_id', text: 'Origination Profile ID' },		  
+				  { id: 58, value: 'origination_local_payload_udp_address', text: 'Origination Local Payload Port' },		
+				  //{ id: 81, value: 'origination_profile_id', text: 'Origination Profile ID' },		  
 				  { id: 60, value: 'origination_profile_port', text: 'Origination Profile Port' },
 				  { id: 61, value: 'pdd', text: 'Pdd' },
 				  { id: 62, value: 'release_cause', text: 'Release Cause' },
 				  { id: 63, value: 'release_cause_from_protocol_stack', text: 'Response To Egress' },
 				  { id: 64, value: 'binary_value_of_release_cause_from_protocol_stack', text: 'Response From Igress' },
 				  { id: 65, value: 'ring_time', text: 'Ring Time' },
-				  { id: 66, value: 'routing_plan', text: 'Routing Plan' },
+				  { id: 66, value: 'route_plan', text: 'Routing Plan' },
 				  { id: 67, value: 'static_route', text: 'Static Route Name' },
 				  { id: 68, value: 'termination_codec_list', text: 'Term Codecs' },
 				  { id: 69, value: 'termination_destination_number', text: 'Term DST Number' },
@@ -628,9 +629,9 @@
 				  { id: 76, value: 'term_delay_second', text: 'Term Delay Second' },
 				  { id: 77, value: 'termination_remote_payload_ip_address', text: 'Term Media IP' },
 				  { id: 78, value: 'termination_call_id', text: 'Termination Call ID' },
-				  { id: 79, value: 'termination_local_payload_ip', text: 'Termination Local Payload IP' },
-				  { id: 80, value: 'termination_local_payload_port', text: 'Termination Local Payload Port' },
-				  { id: 81, value: 'termination_profile_id', text: 'Termination Profile ID' },
+				  { id: 79, value: 'termination_local_payload_ip_address', text: 'Termination Local Payload IP' },
+				  { id: 80, value: 'termination_local_payload_udp_address', text: 'Termination Local Payload Port' },
+				  //{ id: 81, value: 'termination_profile_id', text: 'Termination Profile ID' },
 				  { id: 82, value: 'termination_profile_port', text: 'Termination Profile Port' },
 				  { id: 83, value: 'time', text: 'Time' },
 				  { id: 84, value: 'translation_ani', text: 'Translation ANI' },
@@ -643,6 +644,10 @@
 				refresh: false,
 				ani: '',				
 				dnis2: '',
+				start_date: '',
+				end_date: '',
+				start_time: '',
+				end_time: '',
 
 				fetchType: 'websocket',
 				token: 'Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf',
@@ -661,8 +666,7 @@
 				to: '',
 				
 				carriers: '',
-				start_date: '',
-				end_date: '',
+				
 				from: '',
 				
 				carrirers: '',
@@ -1050,7 +1054,7 @@
 				}				
 				return filterURL;
 			},
-			fetchCDRs: function(start_time = 1501027200, end_time = 1501113599, filterURL, egress_rcause = 'NORMAL_CLEARING'){
+			fetchCDRs: function(start_time, end_time, filterURL, egress_rcause = 'NORMAL_CLEARING'){
 				this.loading = true;
 				console.log("getting CDR lists");				
 				var page = this.pageOne.currentPage - 1;
@@ -1081,26 +1085,56 @@
 				});			
 			},
 			searchReport: function(){				
-				var start_time, end_time;						
-				if(this.start_date == ""){
-					start_time = new Date().getTime() / 1000;
-				}	
-				else{
-					start_time = new Date(this.start_date).getTime() / 1000;
-				}
+				var start_time, end_time, step;	
+				if(this.time == 'Custom')
+				{					
+					if(this.start_date == ""){
+						start_time = new Date();
+					}	
+					else{
+						start_time = new Date(this.start_date);
+					}
 
-				if(this.end_date == ""){
-					end_time = new Date().getTime() / 1000;
-				}	
-				else{
-					end_time = new Date(this.end_date).getTime() / 1000;
-				}				
+					if(this.end_date == ""){
+						end_time = new Date();
+					}	
+					else{
+						end_time = new Date(this.end_date);
+					}	
+				} else if(this.time == 'Today')
+				{
+					start_time = getStartTimeOfToday();
+					end_time = getEndTimeOfToday();
+				} else if(this.time == 'Yesterday')
+				{
+					start_time = getStartTimeOfYesterday();
+					end_time = getEndTimeOfYesterday();
+				} else if(this.time == 'Current week')
+				{
+					start_time = getStartTimeOfCurrentWeek();
+					end_time = getEndTimeOfCurrentWeek();
+				} else if(this.time == 'Previous week')
+				{
+					start_time = getStartTimeOfPreviousWeek();
+					end_time = getEndTimeOfPreviousWeek();
+				} else if(this.time == 'Current month')
+				{
+					start_time = getStartTimeOfCurrentMonth();
+					end_time = getEndTimeOfCurrentMonth();
+				} else if(this.time == 'Previous month')
+				{
+					start_time = getStartTimeOfPreviousMonth();
+					end_time = getEndTimeOfPreviousMonth();
+				} 		
+				start_time = new Date(start_time).getTime() / 1000;
+				end_time = new Date(end_time).getTime() / 1000;				
+
 				this.selected_show_fields = this.backup_selected_show_fields;
-				this.makeColumns();
-				//console.log(this.show_table_columns);
+				this.makeColumns();				
 				var filterURL = this.makeURL();							
-				this.fetchCDRs(start_time, end_time, filterURL);	
-				//alert(this.show_fields);
+				this.cdrs = [];
+				if(step != 0)
+					this.fetchCDRs(start_time, end_time, filterURL);														
 			},
 			makeRequest(type, url, query_json, token) {				
 				let hRequest = prepareRequest(type, url, query_json, token); //requirement check spelling

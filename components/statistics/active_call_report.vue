@@ -103,7 +103,7 @@
 					<div class="white_pad less_pad">
 						<h1 class="page-header">Fields</h1>
 						<label for="groupname">Show Fields:</label>
-						<select multiple class="multi">
+						<select multiple class="multi" v-model = "backup_selected_show_fields">
 							<option v-for="option in show_field_options" :value='option.value'>{{option.text}}</option>
 						</select>
 					</div>
@@ -183,7 +183,8 @@
 	const vSelect = require('vue!../main_components/select.vue'),
 		  vSpinner = require('vue!../main_components/fadeloader.vue'),
 		  Pagination = require('vue!../main_components/pagination.vue');
-	const api = require("../../api");
+		  const api = require("../../api");
+		  const	auth = require("../../auth");
 	module.exports = {
 		created: function(){
 			this.fetchCarriers();	
@@ -230,18 +231,22 @@
 			  	],
 				plan_table_columns: [],
 				showcolumns: [],
+
+				selected_show_fields: [],
+				backup_selected_show_fields: [],
+				show_table_columns: [],
 				show_field_options: [
-				  { id: 1, value: 'start_time', text: 'Start Time' },
-				  { id: 2, value: 'answer_time', text: 'Answer Time' },
-				  { id: 3, value: 'orig_ani', text: 'Orig ANI' },				 
-				  { id: 4, value: 'orig_dnis', text: 'Orig DNIS' },
-				  { id: 5, value: 'orig_ip', text: 'Orig IP' },
-				  { id: 6, value: 'orig_profile_ip', text: 'Orig Profile IP' },
+				  { id: 1, value: 'start_time_of_date', text: 'Start Time' },
+				  { id: 2, value: 'start_time_of_date', text: 'Answer Time' },
+				  { id: 3, value: 'orig_ani', text: 'Orig ANI' },		//miss		 
+				  { id: 4, value: 'orig_dnis', text: 'Orig DNIS' },    //miss
+				  { id: 5, value: 'origination_source_host_name', text: 'Orig IP' },
+				  { id: 6, value: 'orig_profile_ip', text: 'Orig Profile IP' },   //miss
 				  { id: 7, value: 'orig_code', text: 'Orig Code' },
-				  { id: 8, value: 'orig_rtp_ip', text: 'Orig Rtp IP' },
-				  { id: 9, value: 'orig_rtp_port', text: 'Orig Rtp Port' },
-				  { id: 10, value: 'orig_sw_rtp_ip', text: 'Orig Sw Rtp IP' },
-				  { id: 11, value: 'orig_sw_rtp_port', text: 'Orig Sw Rtp Port' },
+				  { id: 8, value: 'orig_rtp_ip', text: 'Orig Rtp IP' },  //miss
+				  { id: 9, value: 'orig_rtp_port', text: 'Orig Rtp Port' },  //miss
+				  { id: 10, value: 'orig_sw_rtp_ip', text: 'Orig Sw Rtp IP' },  //miss 
+				  { id: 11, value: 'orig_sw_rtp_port', text: 'Orig Sw Rtp Port' },  //miss
 				  { id: 12, value: 'ingress_carrier', text: 'Ingress Carrier' },
 				  { id: 13, value: 'ingress_trunk', text: 'Ingress Trunk' },
 				  { id: 14, value: 'lrn_number', text: 'LRN Number' },
@@ -295,10 +300,10 @@
 				this.fetchRelatedTrunks('ingress');
 			},
 			changeEgressTrunk() {
-				this.fetchIpLists('egress');
+				//this.fetchIpLists('egress');
 			},
 			changeIngressTrunk() {				
-				this.fetchIpLists('ingress');
+				//this.fetchIpLists('ingress');
 			},
 			fetchAllTrunks (type) {
 				var url;
@@ -342,12 +347,25 @@
 			fetchRelatedTrunks (type) {				
 				var url;
 				if(type == 'egress')
+				{
+					if(this.egress_carrier == undefined) return;
+					this.egress_trunk = '';					
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.egress_carrier + '/egress_trunk/list';
+				}
 				else if(type == 'ingress')
+				{
+					if(this.ingress_carrier == undefined) return;
+					this.ingress_trunk = '';
+					console.log(this.ingress_trunk);
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.ingress_carrier + '/ingress_trunk/list';
+				}	
 				this.loading = true;
-				this.$http.get(url)
-				.then(response => {
+				this.$http.get(url,
+				{
+					headers: {
+						"X-Auth-Token": auth.getToken()
+					}
+				}).then(response => {
 					const body = response.body
 					if (body.success) {
 						const trunks = body.payload.items
@@ -361,7 +379,7 @@
 								trunk.text = temp.name;
 								self.egress_trunk_options.push(trunk);
 							});
-							console.log("Egress: " + this.egress_trunk_options.length);
+							//console.log("Egress: " + this.egress_trunk_options.length);
 						}
 						else if(type == 'ingress') {
 							this.ingress_trunk_options = [];
@@ -371,66 +389,15 @@
 								trunk.text = temp.name;
 								self.ingress_trunk_options.push(trunk);
 							});
-							console.log("Inress: " + this.ingress_trunk_options.length);
+							//console.log("Inress: " + this.ingress_trunk_options.length);
 						}
 						this.loading = false;
-						console.log("Success");
+						console.log("Fetch releated trunks success");
 					}
 				})
 				.catch(error => {					
-					console.log("Failure");
-					console.log(error);
-					this.loading = false;
-				})
-			},
-			fetchIpLists (type){
-				var url;
-				if(type == 'egress')
-					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.egress_trunk;
-				else if(type == 'ingress')
-					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.ingress_trunk;
-				this.loading = true;
-				this.$http.get(url)
-				.then(response => {
-					const body = response.body
-					if (body.success) {
-						const trunks = body.payload.items
-						console.log(body);
-						var self = this;
-						if(type == 'egress') {
-							this.egress_trunk_ip_options = [];
-							this.egress_trunk_ip_options["id"] = 1;
-							this.egress_trunk_ip_options["value"] = body.payload.ip;
-							// trunks.forEach(function (temp, i) {
-							// 	var trunk = {};
-							// 	trunk.id = temp.resource_id;
-							// 	trunk.text = temp.name;
-							// 	self.egress_trunk_ip_options.push(trunk);
-							// });
-							// console.log("Egress: " + this.egress_trunk_ip_options.length);
-						}
-						else if(type == 'ingress') {
-							this.ingress_trunk_ip_options = [];
-							var value = new Array();
-							value["id"] = 1;
-							value["value"] = body.payload.ip;
-							self.ingress_trunk_ip_options.push(value);							
-							
-							// trunks.forEach(function (temp, i) {
-							// 	var trunk = {};
-							// 	trunk.id = temp.resource_id;
-							// 	trunk.text = temp.name;
-							// 	self.inress_trunk_ip_options.push(trunk);
-							// });
-							console.log("IP Address: " + this.ingress_trunk_ip_options.length);
-						}
-						this.loading = false;
-						console.log("Success");
-					}
-				})
-				.catch(error => {					
-					console.log("Failure");
-					console.log(error);
+					console.log("Fetch releated trunks failure");
+					//console.log(error);
 					this.loading = false;
 				})
 			},
@@ -442,8 +409,12 @@
 				else
 					url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
 				console.log(url);
-				this.$http.get(url)
-					.then(response => {
+				this.$http.get(url,
+				{
+					headers: {
+						"X-Auth-Token": auth.getToken()
+					}
+				}).then(response => {
 						const body = response.body
 						if (body.success) {
 							var self = this;
@@ -463,16 +434,54 @@
 							this.tmpPageOne.cntPerPage = payload.per_page;
 
 							if(this.tmpPageOne.totalPages > this.tmpPageOne.currentPage)
-								this.fetchCarriers();
-							
-							console.log(this.carrier_options);
+								this.fetchCarriers();			
+							console.log("Fetch carriers success");					
+							//console.log(this.carrier_options);
 						}
 					})
 					.catch(error => {
-						console.log(error)
+						//console.log(error)
+						console.log("Fetch carriers failure");					
 						this.loading = false;
 					})
 			},
+			fetchIpLists (type){
+				var url;
+				if(type == 'egress')
+					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.egress_trunk;
+				else if(type == 'ingress')
+					url = api.getEndpointUrl() + '/v1/trunk/ip/' + this.ingress_trunk;
+				this.loading = true;
+				this.$http.get(url)
+				.then(response => {
+					const body = response.body
+					if (body.success) {
+						const trunks = body.payload.items
+						console.log(body);
+						var self = this;
+						if(type == 'egress') {
+							this.egress_trunk_ip_options = [];
+							this.egress_trunk_ip_options["id"] = 1;
+							this.egress_trunk_ip_options["value"] = body.payload.ip;						
+						}
+						else if(type == 'ingress') {
+							this.ingress_trunk_ip_options = [];
+							var value = new Array();
+							value["id"] = 1;
+							value["value"] = body.payload.ip;
+							self.ingress_trunk_ip_options.push(value);														
+							console.log("IP Address: " + this.ingress_trunk_ip_options.length);
+						}
+						this.loading = false;
+						console.log("Success");
+					}
+				})
+				.catch(error => {					
+					console.log("Failure");
+					console.log(error);
+					this.loading = false;
+				})
+			},			
 			changePageCount (countPerPage) {
 				
 			},

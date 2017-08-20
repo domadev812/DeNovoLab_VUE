@@ -14,12 +14,12 @@
 					<div class="advanced_search_filter_panel">
 						<div class="col-md-2 col-sm-4">
 							<label>Period:</label>
-							<select2 :options="period_options" v-model="period">
+							<select2 :options="period_options" v-model="time">
 								<option disabled value="0">Select one</option>
 							</select2>
 						</div>
 						<div class="col-md-4 col-sm-8">
-							<div class="inlined">
+							<div class="inlined" >
 								<label for="start_date">Start Time:</label>
 								<el-date-picker style="width: 100%;" type="datetime" v-model="start_date" :picker-options="{}" placeholder="Enter Date and TIme"></el-date-picker>
 							</div>
@@ -30,11 +30,13 @@
 						</div>
 						<div class="col-md-6 col-sm-12 none-left-padding none-right-padding">
 							<div class="inlined">
-								<div class="col-md-4 col-sm-4">
-									<label>GMT:</label>		
-									<select2 :options="gmt_options" v-model="gmt">
-										<option disabled value="0">Select one</option>
-									</select2>
+								<div class="col-md-4 col-sm-4 no-min-width">
+									<label>GMT:</label>
+									<select class="selectable" v-model="gmt">
+										<option v-for="item in gmt_options" v-bind:value="item.id">
+											{{ item.text }}
+										</option>
+									</select>
 								</div>
 								<div class="col-md-4 col-sm-4">
 									<label>By Hours:</label>
@@ -55,11 +57,252 @@
 										Query
 									</a>
 								</div>
+								<!--
 								<div class="col-md-4 col-sm-4">
 									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
 										{{more_advanced_option_button}}
 									</a>
+								</div> -->
+								<div class="clearfix"></div>
+							</div>
+						</div>
+						<div class="clearfix little-space"></div>
+						<div class = "inlined" v-show="more_advanced_option" >
+						<div class="col-md-6 col-sm-6">
+							<div class="white_pad less_pad">
+								<div class="white_pad less_pad">
+								<h1 class="page-header">Inbound</h1>
+								<div class="row">
+								<div class="col-md-6 first">
+									<label>Carriers:</label>				
+									<select class="selectable no-min-width" v-model="ingress_carrier" @change="changeIngress">
+										<option v-for="item in carrier_options" v-bind:value="item.id">
+											{{ item.text }}
+										</option>
+									</select>									
 								</div>
+								<div class="col-md-6 second">
+									<label>Ingress Trunk:</label>
+									<select class="selectable no-min-width" v-model="ingress_trunk">
+										<option v-for="item in ingress_trunk_options" v-bind:value="item.id">
+											{{ item.text }}
+										</option>
+									</select>
+								</div>
+								<div class="clearfix little-space"></div>								
+								<div class="col-md-6 first">
+									<label for="country">Country:</label>
+									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
+								</div>
+								<div class="col-md-6 second">
+									<label for="code_name">Origination ANI:</label>
+									<input type="text" name="origination_ani" v-model="ani" class="form-control" placeholder="Enter Origination ANI">
+								</div>	
+								<div class="clearfix little-space"></div>																
+								<div class="col-md-6 first">
+									<label for="code_name">Origination DNIS:</label>
+									<input type="text" name="origination_dnis" v-model="dnis" class="form-control" placeholder="Enter Origination DNIS">
+								</div>							
+								<div class="clearfix"></div>
+								</div>
+							</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="white_pad less_pad">
+								<h1 class="page-header">Outbound</h1>
+								<div class="row">
+								<div class="col-md-6 first">
+										<label>Carriers:</label>
+										<select class="selectable no-min-width" v-model="egress_carrier" @change="changeEgress">
+											<option v-for="item in carrier_options" v-bind:value="item.id">
+												{{ item.text }}
+											</option>
+										</select>
+									</div>
+									<div class="col-md-6 second">
+										<label>Egress Trunk:</label>
+										<select class="selectable no-min-width" v-model="egress_trunk">
+											<option v-for="item in egress_trunk_options" v-bind:value="item.id">
+												{{ item.text }}
+											</option>
+										</select>
+									</div>	
+																								
+								<div class="clearfix"></div>
+								</div>
+							</div>
+						</div>						
+						<div class="clearfix"></div>
+						<div class="col-md-12 col-sm-12">
+							<div class="white_pad less_pad">
+								<div class="col-md-4 col-sm-6">
+									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #1:</label></div>
+									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
+										<select class="selectable no-min-width" v-model="group_by1">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
+									</div>
+								</div>
+								<div class="col-md-4 col-sm-6">
+									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #2:</label></div>
+									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
+										<select class="selectable no-min-width" v-model="group_by2">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
+									</div>
+								</div>
+								<div class="col-md-4 col-sm-6">
+									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #3:</label></div>
+									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
+										<select class="selectable no-min-width" v-model="group_by3">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
+									</div>
+								</div>
+								<div class="col-md-4 col-sm-6">
+									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #4:</label></div>
+									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
+										<select class="selectable no-min-width" v-model="group_by4">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
+									</div>
+								</div>
+								<div class="col-md-4 col-sm-6">
+									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #5:</label></div>
+									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
+										<select class="selectable no-min-width" v-model="group_by5">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
+									</div>
+								</div>		
+								<div class="clearfix"></div>
+							</div>							
+						</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="table_filters pull-right">
+						<div class="inline-block select_min_wrapper">
+							<span class="inline-block">Page row:</span>
+							<select2 :options="page_rows" v-model="page_row_count" class="inline-block" @pagecount="changePageCount">
+							</select2>
+						</div>
+						<div class="inline-block">							
+							<el-select v-model="route_table_columns" multiple placeholder="Show/Hide Columns" @change="handleChange">
+                                    <el-option v-for="item in route_table_column_options" :key="item.value" :label="item.label" :value="item.value">
+                                    </el-option>
+                                </el-select>
+						</div>
+					</div>
+					<span class="table_time chart_time margin_0">
+						09/23/2016 17:34:52 +0000
+					</span>
+					<div class="clearfix"></div>
+					<div class="table-responsive">
+						<table class="table table-striped table-hover carrier_groups centrum">
+						  <thead>
+							<tr>								
+								<th rowspan="2" colspan="1">ASR</th>
+								<th rowspan="2" colspan="1">ACD(min)</th>								
+								<th rowspan="2" colspan="1">PDD(ms)</th>
+								<th rowspan="1" colspan="1">Time(min)</th>
+								<th rowspan="1" colspan="3">Calls</th>
+							</tr>
+							<tr>
+								<th rowspan="1" colspan="1">Total Billable Time</th>
+								<th rowspan="1" colspan="1">Total Calls</th>
+								<th rowspan="1" colspan="1">Not Zero</th>
+								<th rowspan="1" colspan="1">Busy Calls</th>								
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr v-if="!filterBy(originations, report).length">
+								<td style="text-align: center" colspan="10">No Data Found</td>
+							</tr>	
+							<tr v-for="origination in originations">							  
+							  <td>{{origination.asr}}</td>
+							  <td>{{origination.acd}}</td>							  
+							  <td>{{origination.pdd}}</td>
+							  <td>{{origination.ingress_billed_time}}</td>
+							  <td>{{origination.ingress_calls}}</td>
+							  <td>{{origination.non_zero_calls}}</td>							  
+							  <td>{{origination.ingress_busy_calls}}</td>							  
+							</tr>
+						  </tbody>
+						</table>
+					</div>
+					<div class="pull-right pagination">
+						<pagination :current-page="pageOne.currentPage"
+									:total-pages="pageOne.totalPages"
+									@page-changed="pageOneChanged">
+						</pagination>
+					</div>
+					<div class="clearfix"></div>
+				</tab>
+				<tab label="Termination" class="" icon="dnl_icon dnl_to_right">
+					<div class="advanced_search_filter_panel">
+						<div class="col-md-2 col-sm-4">
+							<label>Period:</label>
+							<select2 :options="period_options" v-model="time">
+								<option disabled value="0">Select one</option>
+							</select2>
+						</div>
+						<div class="col-md-4 col-sm-8">
+							<div class="inlined" >
+								<label for="start_date">Start Time:</label>
+								<el-date-picker style="width: 100%;" type="datetime" v-model="start_date" :picker-options="{}" placeholder="Enter Date and TIme"></el-date-picker>
+							</div>
+							<div class="inlined">
+								<label for="end-date">End Time:</label>
+								<el-date-picker style="width: 100%;" type="datetime" v-model="end_date" :picker-options="{}" placeholder="Enter Date and TIme"></el-date-picker>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12 none-left-padding none-right-padding">
+							<div class="inlined">
+								<div class="col-md-4 col-sm-4 no-min-width">
+									<label>GMT:</label>
+									<select class="selectable" v-model="gmt">
+										<option v-for="item in gmt_options" v-bind:value="item.id">
+											{{ item.text }}
+										</option>
+									</select>
+								</div>
+								<div class="col-md-4 col-sm-4">
+									<label>By Hours:</label>
+									<select2 :options="by_hour_options" v-model="by_hours">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+								<div class="col-md-4 col-sm-4">
+									<label>Web:</label>
+									<select2 :options="web_options" v-model="web">
+										<option disabled value="0">Select one</option>
+									</select2>
+								</div>
+							</div>
+							<div class="inlined">
+								<div class="col-md-4 col-sm-4">
+									<a class="btn btn-primary full-width m-top-20" v-on:click="searchReport()">
+										Query
+									</a>
+								</div>
+								<!--
+								<div class="col-md-4 col-sm-4">
+									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
+										{{more_advanced_option_button}}
+									</a>
+								</div> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -79,41 +322,26 @@
 								</div>
 								<div class="col-md-6 second">
 									<label>Ingress Trunk:</label>
-									<select class="selectable no-min-width" v-model="ingress">
+									<select class="selectable no-min-width" v-model="ingress_trunk">
 										<option v-for="item in ingress_trunk_options" v-bind:value="item.id">
 											{{ item.text }}
 										</option>
 									</select>
-								</div>
-								<div class="clearfix little-space"></div>
-								<div class="col-md-6">
-									<label>Tech Prefix:</label>
-									<select2 :options="prefix_options" v-model="prefix">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="col-md-6">
-									<label for="country">Country:</label>
-									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
-								</div>
-								<div class="clearfix little-space"></div>
-								<div class="col-md-6">
-									<label for="code_name">Code Name:</label>
-									<input type="text" name="code_name" v-model="code_name" class="form-control" placeholder="Enter Code Name">
-								</div>
-								<div class="col-md-6">
-									<label>Routing Plan:</label>
-									<select2 :options="route_plan_options" v-model="routing_plan">
-										<option disabled value="0">Select one</option>
-									</select2>
 								</div>
 								<div class="clearfix little-space"></div>								
-								<div class="col-md-6">
-									<label>Rate Table:</label>
-									<select2 :options="rate_table_options" v-model="rate_table">
-										<option disabled value="0">Select one</option>
-									</select2>
+								<div class="col-md-6 first">
+									<label for="country">Country:</label>
+									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
 								</div>
+								<div class="col-md-6 second">
+									<label for="code_name">Origination ANI:</label>
+									<input type="text" name="origination_ani" v-model="ani" class="form-control" placeholder="Enter Origination ANI">
+								</div>	
+								<div class="clearfix little-space"></div>																
+								<div class="col-md-6 first">
+									<label for="code_name">Origination DNIS:</label>
+									<input type="text" name="origination_dnis" v-model="dnis" class="form-control" placeholder="Enter Origination DNIS">
+								</div>							
 								<div class="clearfix"></div>
 								</div>
 							</div>
@@ -122,92 +350,84 @@
 							<div class="white_pad less_pad">
 								<h1 class="page-header">Outbound</h1>
 								<div class="row">
-								<div class="col-md-6">
-									<label>Carriers:</label>
-									<select class="selectable no-min-width" v-model="egress_carrier" @change="changeEgress">
-										<option v-for="item in carrier_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<label>Egress Trunk:</label>
-									<select class="selectable no-min-width" v-model="egress_trunk">
-										<option v-for="item in egress_trunk_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>
-								</div>
-								<div class="clearfix little-space"></div>
-								<div class="col-md-6">
-									<label for="country">Country:</label>
-									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
-								</div>
-								<div class="col-md-6">
-									<label for="code_name">Code Name:</label>
-									<input type="text" name="code_name" v-model="code_name" class="form-control" placeholder="Enter Code Name">
-								</div>
-																								
-								<div class="clearfix"></div>
+									<div class="col-md-6 first">
+										<label>Carriers:</label>
+										<select class="selectable no-min-width" v-model="egress_carrier" @change="changeEgress">
+											<option v-for="item in carrier_options" v-bind:value="item.id">
+												{{ item.text }}
+											</option>
+										</select>
+									</div>
+									<div class="col-md-6 second">
+										<label>Egress Trunk:</label>
+										<select class="selectable no-min-width" v-model="egress_trunk">
+											<option v-for="item in egress_trunk_options" v-bind:value="item.id">
+												{{ item.text }}
+											</option>
+										</select>
+									</div>								
+									<div class="clearfix"></div>								
 								</div>
 							</div>
-						</div>						
+						</div>
 						<div class="clearfix"></div>
 						<div class="col-md-12 col-sm-12">
 							<div class="white_pad less_pad">
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #1:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by1">
-											<option disabled value="0">Select one</option>
-										</select2>										
+										<select class="selectable no-min-width" v-model="group_by1">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #2:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by2">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by2">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #3:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by3">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by3">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #4:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by4">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by4">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
 								</div>
 								<div class="col-md-4 col-sm-6">
 									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #5:</label></div>
 									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by5">
-											<option disabled value="0">Select one</option>
-										</select2>
+										<select class="selectable no-min-width" v-model="group_by5">
+											<option v-for="item in group_options" v-bind:value="item.value">
+												{{ item.text }}
+											</option>
+										</select>										
 									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #6:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by6">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
+								</div>								
 								<div class="clearfix"></div>
-							</div>							
-						</div>
+							</div>
 						</div>
 						<div class="clearfix"></div>
+						</div>
 					</div>
 					<div class="table_filters pull-right">
 						<div class="inline-block select_min_wrapper">
@@ -229,298 +449,32 @@
 					<div class="table-responsive">
 						<table class="table table-striped table-hover carrier_groups centrum">
 						  <thead>
-							<tr>
-								<th rowspan="2" colspan="1">ABR</th>
+							<tr>								
 								<th rowspan="2" colspan="1">ASR</th>
-								<th rowspan="2" colspan="1">ACD(min)</th>
-								<th rowspan="2" colspan="1">ALOC</th>
+								<th rowspan="2" colspan="1">ACD(min)</th>								
 								<th rowspan="2" colspan="1">PDD(ms)</th>
 								<th rowspan="1" colspan="1">Time(min)</th>
-								<th rowspan="1" colspan="4">Calls</th>
+								<th rowspan="1" colspan="3">Calls</th>
 							</tr>
 							<tr>
 								<th rowspan="1" colspan="1">Total Billable Time</th>
 								<th rowspan="1" colspan="1">Total Calls</th>
 								<th rowspan="1" colspan="1">Not Zero</th>
-								<th rowspan="1" colspan="1">Success Calls</th>
-								<th rowspan="1" colspan="1">Busy Calls</th>
-							</tr>
-						  </thead>
-						  <tbody>
-							<tr v-if="!filterBy(originations, report).length">
-								<td style="text-align: center" colspan="10">No Data Found</td>
-							</tr>	
-							<tr v-for="origination in originations">
-							  <td>{{origination.abr}}</td>
-							  <td>{{origination.asr}}</td>
-							  <td>{{origination.acd}}</td>
-							  <td>{{origination.aloc}}</td>
-							  <td>{{origination.pdd}}</td>
-							  <td>{{origination.ingress_billed_time}}</td>
-							  <td>{{origination.ingress_calls}}</td>
-							  <td>{{origination.non_zero_calls}}</td>
-							  <td>{{origination.success_calls}}</td>
-							  <td>{{origination.ingress_busy_calls}}</td>							  
-							</tr>
-						  </tbody>
-						</table>
-					</div>
-					<div class="pull-right pagination">
-						<pagination :current-page="pageOne.currentPage"
-									:total-pages="pageOne.totalPages"
-									@page-changed="pageOneChanged">
-						</pagination>
-					</div>
-					<div class="clearfix"></div>
-				</tab>
-				<tab label="Termination" class="" icon="dnl_icon dnl_to_right">
-					<div class="advanced_search_filter_panel">
-						<div class="col-md-2 col-sm-4">
-							<label>Period:</label>
-							<select2 :options="period_options" v-model="period">
-								<option disabled value="0">Select one</option>
-							</select2>
-						</div>
-						<div class="col-md-4 col-sm-8">
-							<div class="inlined">
-								<label for="start_date">Start Time:</label>
-								<el-date-picker style="width: 100%;" type="datetime" v-model="start_date" :picker-options="{}" placeholder="Enter Date and TIme"></el-date-picker>
-							</div>
-							<div class="inlined">
-								<label for="end-date">End Time:</label>
-								<el-date-picker style="width: 100%;" type="datetime" v-model="end_date" :picker-options="{}" placeholder="Enter Date and TIme"></el-date-picker>
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-12 none-left-padding none-right-padding">
-							<div class="inlined">
-								<div class="col-md-4 col-sm-4">
-									<label>GMT:</label>		
-									<select2 :options="gmt_options" v-model="gmt">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="col-md-4 col-sm-4">
-									<label>By Hours:</label>
-									<select2 :options="by_hour_options" v-model="by_hours">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="col-md-4 col-sm-4">
-									<label>Web:</label>
-									<select2 :options="web_options" v-model="web">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-							</div>
-							<div class="inlined">
-								<div class="col-md-4 col-sm-4">
-									<a class="btn btn-primary full-width m-top-20" v-on:click="searchReport()">
-										Query
-									</a>
-								</div>
-								<div class="col-md-4 col-sm-4">
-									<a class="btn btn-primary full-width m-top-20"  v-on:click="showAdvanced()">
-										{{more_advanced_option_button}}
-									</a>
-								</div>
-								<div class="clearfix"></div>
-							</div>
-						</div>
-						<div class="clearfix little-space"></div>
-						<div class="col-md-6 col-sm-6">
-							<div class="white_pad less_pad">
-								<h1 class="page-header">Inbound</h1>
-								<div class="row">
-								<div class="col-md-6 first">
-									<label>Carriers:</label>				
-									<select class="selectable no-min-width" v-model="ingress_carrier" @change="changeIngress">
-										<option v-for="item in carrier_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>									
-								</div>
-								<div class="col-md-6 second">
-									<label>Ingress Trunk:</label>
-									<select class="selectable no-min-width" v-model="ingress">
-										<option v-for="item in ingress_trunk_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>
-								</div>
-								<div class="clearfix little-space"></div>
-								<div class="col-md-6">
-									<label>Tech Prefix:</label>
-									<select2 :options="prefix_options" v-model="prefix">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="col-md-6">
-									<label for="country">Country:</label>
-									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
-								</div>
-								<div class="clearfix little-space"></div>
-								<div class="col-md-6">
-									<label for="code_name">Code Name:</label>
-									<input type="text" name="code_name" v-model="code_name" class="form-control" placeholder="Enter Code Name">
-								</div>
-								<div class="col-md-6">
-									<label>Routing Plan:</label>
-									<select2 :options="route_plan_options" v-model="routing_plan">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="clearfix little-space"></div>		
-								<div class="col-md-6">
-									<label>Rate Table:</label>
-									<select2 :options="rate_table_options" v-model="rate_table">
-										<option disabled value="0">Select one</option>
-									</select2>
-								</div>
-								<div class="clearfix"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-6">
-							<div class="white_pad less_pad">
-								<h1 class="page-header">Outbound</h1>
-								<div class="row">
-								<div class="col-md-6 first">
-									<label>Carriers:</label>									
-									<select class="selectable no-min-width" v-model="egress_carrier" @change="changeEgress">
-										<option v-for="item in carrier_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>
-								</div>
-								<div class="col-md-6 second">
-									<label>Egress Trunk:</label>
-									<select class="selectable no-min-width" v-model="egress_trunk">
-										<option v-for="item in egress_trunk_options" v-bind:value="item.id">
-											{{ item.text }}
-										</option>
-									</select>
-								</div>
-								<div class="clearfix little-space"></div>
-								<div class="col-md-6">
-									<label for="country">Country:</label>
-									<input type="text" name="country" v-model="country" class="form-control" placeholder="Enter Country">
-								</div>
-								<div class="col-md-6">
-									<label for="code_name">Code Name:</label>
-									<input type="text" name="code_name" v-model="code_name" class="form-control" placeholder="Enter Code Name">
-								</div>																								
-								<div class="clearfix"></div>
-								</div>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-						<div class="col-md-12 col-sm-12">
-							<div class="white_pad less_pad">
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #1:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by1">
-											<option disabled value="0">Select one</option>
-										</select2>										
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #2:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by2">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #3:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by3">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #4:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by4">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #5:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by5">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="col-md-4 col-sm-5 m-top-10 group-label"><label class="m-top-10">Group by #6:</label></div>
-									<div class="col-md-8 col-sm-7 m-top-10 none-left-padding">
-										<select2 :options="group_options" v-model="group_by6">
-											<option disabled value="0">Select one</option>
-										</select2>
-									</div>
-								</div>
-								<div class="clearfix"></div>
-							</div>						
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="table_filters pull-right">
-						<div class="inline-block select_min_wrapper">
-							<span class="inline-block">Page row:</span>
-							<select2 :options="page_rows" v-model="page_row_count" class="inline-block" @pagecount="changePageCount">
-							</select2>
-						</div>
-						<div class="inline-block">							
-							<el-select v-model="plan_table_columns" multiple placeholder="Show/Hide Columns" @change="handleChange">
-								<el-option v-for="item in show_field_options" :key="item.value" :label="item.text" :value="item.value">
-								</el-option>
-							</el-select>
-						</div>
-					</div>
-					<span class="table_time chart_time margin_0">
-						09/23/2016 17:34:52 +0000
-					</span>
-					<div class="clearfix"></div>
-					<div class="table-responsive">
-						<table class="table table-striped table-hover carrier_groups centrum">
-						  <thead>
-							<tr>
-								<th rowspan="2" colspan="1">ABR</th>
-								<th rowspan="2" colspan="1">ASR</th>
-								<th rowspan="2" colspan="1">ACD(min)</th>
-								<th rowspan="2" colspan="1">ALOC</th>
-								<th rowspan="2" colspan="1">PDD(ms)</th>
-								<th rowspan="1" colspan="1">Time(min)</th>
-								<th rowspan="1" colspan="4">Calls</th>
-							</tr>
-							<tr>
-								<th rowspan="1" colspan="1">Total Billable Time</th>
-								<th rowspan="1" colspan="1">Total Calls</th>
-								<th rowspan="1" colspan="1">Not Zero</th>
-								<th rowspan="1" colspan="1">Success Calls</th>
-								<th rowspan="1" colspan="1">Busy Calls</th>
+								<th rowspan="1" colspan="1">Busy Calls</th>								
 							</tr>
 						  </thead>
 						  <tbody>
 							<tr v-if="!filterBy(terminations, report).length">
 								<td style="text-align: center" colspan="10">No Data Found</td>
 							</tr>	
-							<tr v-for="termination in terminations">
-							  <td>{{termination.abr}}</td>
-							  <td>{{termination.asr}}</td>
-							  <td>{{termination.acd}}</td>
-							  <td>{{termination.aloc}}</td>
-							  <td>{{termination.pdd}}</td>
-							  <td>{{termination.egress_billed_time}}</td>
-							  <td>{{termination.egress_calls}}</td>
-							  <td>{{termination.non_zero_calls}}</td>
-							  <td>{{termination.success_calls}}</td>
-							  <td>{{termination.egress_busy_calls}}</td>							  
+							<tr v-for="origination in originations">							  
+							  <td>{{origination.asr}}</td>
+							  <td>{{origination.acd}}</td>							  
+							  <td>{{origination.pdd}}</td>
+							  <td>{{origination.egress_billed_time}}</td>
+							  <td>{{origination.egress_calls}}</td>
+							  <td>{{origination.non_zero_calls}}</td>							  
+							  <td>{{origination.egress_busy_calls}}</td>							  
 							</tr>
 						  </tbody>
 						</table>
@@ -553,8 +507,8 @@
 			this.fetchCarriers();
 			// this.fetchAllTrunks('egress');
 			// this.fetchAllTrunks('ingress');	
-			this.fetchRateTable();
-			this.fetchRoutePlans();	
+			// this.fetchRateTable();
+			// this.fetchRoutePlans();	
 		},
 		components: {
 			'tabs': vTabs,
@@ -586,7 +540,7 @@
 					{ id: 'email_when_done', text: 'Email when done' },
 					{ id: 'export_from_storage', text: 'Export from Storage' },
 				],	
-				period: '',
+				time: 'Custom',
 				period_options: [
 					{id: 'Custom', text: 'Custom'},
 					{id: 'Today', text: 'Today'},
@@ -632,21 +586,17 @@
 					{ id: 4, text: 'By month', value: 43200 },
 					{ id: 5, text: 'By year', value: 525600 },
 				],
-				group_by1: 1,
-				group_by2: 2,
-				group_by3: 3,
-				group_by4: 4,
-				group_by5: 5,
-				group_by6: 6,
+				group_by1: '',
+				group_by2: '',
+				group_by3: '',
+				group_by4: '',
+				group_by5: '',
 				group_options: [
-				  { id: 1, value: 'ingress_carrier', text: 'Ingress Carrier' },
-				  { id: 2, value: 'ingress_trunk', text: 'Ingress Trunk' },
-				  { id: 3, value: 'ingress_country', text: 'Ingress Country' },				 
-				  { id: 4, value: 'ingress_code_name', text: 'Ingress Code Name' },
-				  { id: 5, value: 'egress_carrier', text: 'Egress Carrier' },
-				  { id: 6, value: 'egress_trunk', text: 'Egress Trunk' },
-				  { id: 7, value: 'egress_country', text: 'Egress Country' },				 
-				  { id: 8, value: 'egress_code_name', text: 'Egress Code Name' },				  				  
+				  { id: 1, value: 'orig_code', text: 'Orig Code' },
+				  { id: 2, value: 'ingress_id', text: 'Ingress ID' },
+				  { id: 3, value: 'egress_id', text: 'Egress ID' },				 
+				  { id: 4, value: 'source_number', text: 'ANI' },
+				  { id: 5, value: 'dest_number', text: 'DNIS' },				  
 				],
 				page_row_count: 1,
 				page_rows: [
@@ -666,17 +616,49 @@
 				  { id: 6, value: 'not_zero_calls', text: 'Not Zero Calls' },
 				  { id: 7, value: 'busy_calls', text: 'Busy Calls' },				  
 				],
-				prefix_options: [
-				  { id: 1, value: 'all', text: 'All' },				  
-			    ],
-				prefix: '',
+
+
+				route_table_column_options: [{
+					value: 'ID',
+					label: 'ID'
+				}, {
+					value: 'Match Prefix',
+					label: 'Match Prefix'
+				}, {
+					value: 'Route Type',
+					label: 'Route Type'
+				}, {
+					value: 'Routing',
+					label: 'Routing'
+				}, {
+					value: 'ANI Length',
+					label: 'ANI Length'
+				}, {
+					value: 'DNIS Length',
+					label: 'DNIS Length'
+				}, {
+					value: 'Update At',
+					label: 'Update At'
+				}, {
+					value: 'Update By',
+					label: 'Update By'
+				}, {
+					value: 'Action',
+					label: 'Action'
+				}],
+				route_table_columns: ['ID', 'Match Prefix', 'Route Type',
+					'Routing', 'ANI Length', 'DNIS Length', 'Update At', 'Update By', 'Action'],
+				showcolumns: [true, true, true, true, true, true, true, true, true],
+
 				more_advanced_option: true,
 				more_advanced_option_button: "Less Options",
 				loading: false,			
-				orgination_search_field: ['pdd', 'ingress_billed_time', 'ingress_calls', 'non_zero_calls', 'ingress_busy_calls'],
-				termination_search_field: ['pdd', 'egress_billed_time', 'egress_calls', 'non_zero_calls', 'egress_busy_calls'],
+				orgination_search_field: ['pdd', 'ingress_billed_time', 'ingress_calls', 'non_zero_calls', 'ingress_busy_calls', 'ingress_time'],
+				termination_search_field: ['pdd', 'egress_billed_time', 'egress_calls', 'non_zero_calls', 'egress_busy_calls', 'egress_time'],
 				start_date: '',
 				end_date: '',
+				ani: '',
+				dnis: '',
 				backupDatas: [],
 				originations: [],
 			    terminations: [],
@@ -740,7 +722,24 @@
 			changeTab (tab, index) {				
 				if (this.active_tab_index === index) { return }
 				this.active_tab_index = index
-				this.active_tab_name = tab.name;	
+				this.active_tab_name = tab.name;		
+				this.more_advanced_option = true,
+				this.more_advanced_option_button = "Less Options";
+				this.gmt = 13;
+				this.time = "Custom";
+				this.by_hours = 1;
+				this.ani = "";
+				this.dnis = "";
+				this.country = "";	
+				this.ingress_carrier = '';
+				this.egress_carrier = '';
+				this.ingress_trunk = '';
+				this.egress_trunk = '';
+				this.group_by1 = '';
+				this.group_by2 = '';
+				this.group_by3 = '';
+				this.group_by4 = '';
+				this.group_by5 = '';
 				this.searchReport();
 			},
 			showAdvanced(){
@@ -755,12 +754,21 @@
 					this.more_advanced_option_button = "Less Options";
 				}
 			},
+			calcValue: function(first, second, percent = 100)
+			{
+				var value = 0;
+				if(second == 0 || second == "") value = 0;
+				else value = first * percent / second;
+				if(isNaN(value)) value = 0;
+				else value = parseFloat(Math.round(value * 100) / 100).toFixed(2);
+				return value;
+			},	
 			makeDatas: function()
 			{
 				console.log("make datas");				
 				if(this.backupDatas.length == 0) return;					
 				var displayArray = new Array();
-				for(var i = 0; i < this.backupDatas[0].length; i++)
+				for(var i = 0; i < this.backupDatas[0].length - 1; i++)
 				{						
 					var value = new Array();										
 					for(var j = 0; j < this.orgination_search_field.length; j++)	
@@ -770,6 +778,17 @@
 						else
 							value[this.termination_search_field[j]] = this.backupDatas[j][i].value;
 					}
+					if(this.active_tab_index == 0)						
+					{
+						value["asr"] = this.calcValue(value["non_zero_calls"], value["ingress_calls"]);
+						value["acd"] = this.calcValue(value["ingress_time"], value["non_zero_calls"], 1);
+					}
+					else
+					{
+						value["asr"] = this.calcValue(value["non_zero_calls"], value["egress_calls"]);
+						value["acd"] = this.calcValue(value["egress_time"], value["non_zero_calls"], 1);
+					}
+										
 					displayArray[i] = value;
 				}
 				if(this.active_tab_index == 0)						
@@ -778,19 +797,19 @@
 					this.terminations = displayArray;
 				this.loading = false;			
 			},
-			fetchQoSReport: function(start_time = 1501538400, end_time = 1501624900, field_ind = 0, step = 1440, method = 'total', group = 'ingress_id')
+			fetchQoSReport: function(start_time, end_time, step, filterURL, field_ind = 0, method = 'total')
 			{								
 				this.loading = true;
-				
-				console.log("Getting Daily Usage Lists");				
+										
 				var page = this.pageOne.currentPage - 1;
 				var per_page = this.pageOne.cntpage;																				
 				var strURL;
 				if(this.active_tab_index == 0)
-				 	strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.orgination_search_field[field_ind] + "&group=" + group;
+				 	strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.orgination_search_field[field_ind];
 				else									
-					strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.termination_search_field[field_ind] + "&group=egress_id";									
-				//alert(strURL);															
+					strURL = api.getReport_URL() + "?start_time=" + start_time + "&end_time=" + end_time + "&step=" + step + "&method=" + method + "&field=" + this.termination_search_field[field_ind];									
+				strURL += filterURL;
+				console.log(strURL);
 				var authToken = "Token Yuza2L2rlGkdemBeYzL0SVncFafTjYNFSMpShsJT614inGMLDf";				
 				this.$http.get(strURL,
 				{
@@ -804,28 +823,139 @@
 					else
 					{
 						field_ind += 1;
-						this.fetchQoSReport(start_time, end_time, field_ind);					 	
+						this.fetchQoSReport(start_time, end_time, step, filterURL, field_ind);					 	
 					}
 				}, function(error) {					
 					this.loading = false;					
 				});			
 			},
 			searchReport: function(){
-				var start_time, end_time;						
-				if(this.start_date == ""){
-					start_time = new Date().getTime() / 1000;
-				}	
-				else{
-					start_time = new Date(this.start_date).getTime() / 1000;
+				var start_time, end_time, step;													
+				if(this.time == 'Custom')
+				{					
+					if(this.start_date == ""){
+						start_time = new Date();
+					}	
+					else{
+						start_time = new Date(this.start_date);
+					}
+
+					if(this.end_date == ""){
+						end_time = new Date();
+					}	
+					else{
+						end_time = new Date(this.end_date);
+					}	
+				} else if(this.time == 'Today')
+				{
+					start_time = getStartTimeOfToday();
+					end_time = getEndTimeOfToday();
+				} else if(this.time == 'Yesterday')
+				{
+					start_time = getStartTimeOfYesterday();
+					end_time = getEndTimeOfYesterday();
+				} else if(this.time == 'Current week')
+				{
+					start_time = getStartTimeOfCurrentWeek();
+					end_time = getEndTimeOfCurrentWeek();
+				} else if(this.time == 'Previous week')
+				{
+					start_time = getStartTimeOfPreviousWeek();
+					end_time = getEndTimeOfPreviousWeek();
+				} else if(this.time == 'Current month')
+				{
+					start_time = getStartTimeOfCurrentMonth();
+					end_time = getEndTimeOfCurrentMonth();
+				} else if(this.time == 'Previous month')
+				{
+					start_time = getStartTimeOfPreviousMonth();
+					end_time = getEndTimeOfPreviousMonth();
+				} 		
+				
+				start_time = new Date(start_time).getTime() / 1000;
+				end_time = new Date(end_time).getTime() / 1000;
+
+				if(this.by_hours == 1)
+				{					
+					var diffMs = (end_time - start_time) * 1000;									
+					var diffDays = Math.floor(diffMs / 86400000); // days
+					var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+					var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes		
+					step = diffDays * 1440 + diffHrs * 60;		
+					if(diffMins % 60 == 0)
+						step += diffMins;
+					else{
+						diffMins = diffMins - (diffMins % 60);
+					}		
+				}
+				else
+					step = this.by_hour_options[this.by_hours - 1].value; 		
+											
+				var filterURL = this.makeURL();
+				console.log(filterURL);
+				this.originations = [];
+				this.terminations = [];
+				if(step != 0)		
+					this.fetchQoSReport(start_time, end_time, step, filterURL);																							
+			},
+			makeURL: function(){
+				var filterURL = '';
+				if(this.ingress_carrier != undefined && this.ingress_carrier != '')
+				{
+					if(this.ingress_trunk != undefined && this.ingress_trunk != '')
+					{
+						filterURL += "&ingress_id=" + this.ingress_trunk;						
+					}
+					else if(this.ingress_trunk_options.length != 0)
+					{
+						var ingress_ids = '';
+						this.ingress_trunk_options.forEach(function (ingress, i) {
+							if(i == 0)
+								ingress_ids += ingress.id;
+							else	
+								ingress_ids += "," + ingress.id;
+						});		
+						filterURL += "&ingress_id=" + ingress_ids;				
+					}					
+				}
+				if(this.country != '')
+				{
+
 				}
 
-				if(this.end_date == ""){
-					end_time = new Date().getTime() / 1000;
-				}	
-				else{
-					end_time = new Date(this.end_date).getTime() / 1000;
-				}																
-				this.fetchQoSReport(start_time, end_time);
+				if(this.ani != '')
+					filterURL += "&source_number=" + this.ani;
+				if(this.dnis != '')				
+					filterURL += "&dest_number=" + this.dnis;				
+				if(this.egress_carrier != undefined && this.egress_carrier != '')
+				{
+					if(this.egress_trunk != undefined && this.egress_trunk != '')
+					{
+						filterURL += "&egress_id=" + this.egress_trunk;						
+					}
+					else if(this.egress_trunk_options.length != 0)
+					{
+						var egress_ids = '';
+						this.egress_trunk_options.forEach(function (egress, i) {
+							if(i == 0)
+								egress_ids += egress.id;
+							else	
+								egress_ids += "," + egress.id;
+						});		
+						filterURL += "&egress_id=" + egress_ids;				
+					}					
+				}
+				if (this.group_by1 != '')
+					filterURL += "&group=" + this.group_by1;				
+				if (this.group_by2 != '')
+					filterURL += "&group=" + this.group_by2;
+				if (this.group_by3 != '')
+					filterURL += "&group=" + this.group_by3;
+				if (this.group_by4 != '')
+					filterURL += "&group=" + this.group_by4;
+				if (this.group_by5 != '')
+					filterURL += "&group=" + this.group_by5;
+				return filterURL;
 			},
 			changeEgress() {
 				this.fetchRelatedTrunks('egress');
@@ -929,12 +1059,26 @@
 			fetchRelatedTrunks (type) {				
 				var url;
 				if(type == 'egress')
+				{
+					if(this.egress_carrier == undefined) return;
+					this.egress_trunk = '';
+					
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.egress_carrier + '/egress_trunk/list';
+				}
 				else if(type == 'ingress')
+				{
+					if(this.ingress_carrier == undefined) return;
+					this.ingress_trunk = '';
+					console.log(this.ingress_trunk);
 					url = api.getEndpointUrl() + '/v1/carrier/' + this.ingress_carrier + '/ingress_trunk/list';
+				}	
 				this.loading = true;
-				this.$http.get(url)
-				.then(response => {
+				this.$http.get(url,
+				{
+					headers: {
+						"X-Auth-Token": auth.getToken()
+					}
+				}).then(response => {
 					const body = response.body
 					if (body.success) {
 						const trunks = body.payload.items
@@ -948,7 +1092,7 @@
 								trunk.text = temp.name;
 								self.egress_trunk_options.push(trunk);
 							});
-							console.log("Egress: " + this.egress_trunk_options.length);
+							//console.log("Egress: " + this.egress_trunk_options.length);
 						}
 						else if(type == 'ingress') {
 							this.ingress_trunk_options = [];
@@ -958,27 +1102,28 @@
 								trunk.text = temp.name;
 								self.ingress_trunk_options.push(trunk);
 							});
-							console.log("Inress: " + this.ingress_trunk_options.length);
+							//console.log("Inress: " + this.ingress_trunk_options.length);
 						}
 						this.loading = false;
-						console.log("Success");
+						console.log("Fetch releated trunks success");
 					}
 				})
 				.catch(error => {					
-					console.log("Failure");
-					console.log(error);
+					console.log("Fetch releated trunks failure");
+					//console.log(error);
 					this.loading = false;
 				})
 			},
-			fetchCarriers() {				
+			fetchCarriers() {
 				this.loading = true;
 				var url;
-				 if(this.tmpPageOne.currentPage === 0)
-					url = api.getEndpointUrl() + "/v1/carrier/list";
-				 else
-				 	url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
-				console.log(url);
-				this.$http.get(url, {
+				if(this.tmpPageOne.currentPage === 0)
+					url = api.getEndpointUrl() + "/v1/carrier/list"
+				else
+					url = api.getEndpointUrl() + "/v1/carrier/list?page=" + this.tmpPageOne.currentPage
+				//console.log(url);
+				this.$http.get(url,
+				{
 					headers: {
 						"X-Auth-Token": auth.getToken()
 					}
@@ -1002,13 +1147,14 @@
 							this.tmpPageOne.cntPerPage = payload.per_page;
 
 							if(this.tmpPageOne.totalPages > this.tmpPageOne.currentPage)
-								this.fetchCarriers();
-							
-							console.log(this.carrier_options);
+								this.fetchCarriers();			
+							console.log("Fetch carriers success");					
+							//console.log(this.carrier_options);
 						}
 					})
 					.catch(error => {
-						console.log(error)
+						//console.log(error)
+						console.log("Fetch carriers failure");					
 						this.loading = false;
 					})
 			},
