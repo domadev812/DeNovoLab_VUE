@@ -547,7 +547,7 @@
 				  { id: 3, text: 'Stop' },
 			  	],
 				selected_show_fields: [],
-				backup_selected_show_fields: ['call_duration', 'egress_alias', 'ingress_alias', 'origination_destination_number', 'pdd', 'origination_source_number', 'release_cause', 
+				backup_selected_show_fields: ['call_duration', 'egress_id', 'ingress_id', 'origination_destination_number', 'pdd', 'origination_source_number', 'release_cause', 
 				'time', 'release_cause_from_protocol_stack', 'orig_call_duration'],
 				show_table_columns: [],
 				show_field_options: [
@@ -555,38 +555,37 @@
 				  { id: 2, value: 'call_duration', text: 'Call Duration'},
 				  { id: 3, value: 'callduration_in_ms', text: 'Call duration in ms' },
 				  { id: 4, value: 'dynamic_route', text: 'Dynamic Route Name' },
-				  { id: 5, value: 'egress_alias', text: 'Egress Alias' },
+				  { id: 5, value: 'egress_id', text: 'Egress Name' },
 				  { id: 6, value: 'egress_bill_minutes', text: 'Egress Bill Minutes' },
 				  { id: 7, value: 'egress_bill_result', text: 'Egress Bill Result' },
 				  { id: 8, value: 'egress_bill_time', text: 'Egress Bill Time' },
 				  { id: 9, value: 'egress_code_acd', text: 'Egress CODE ACD' },
 				  { id: 10, value: 'egress_code_asr', text: 'Egress CODE ASR' },
 				  { id: 11, value: 'egress_client_currency', text: 'Egress Client Currency' },
-				  { id: 12, value: 'egress_client_name', text: 'Egress Client Name' },
+				  { id: 12, value: 'egress_client_id', text: 'Egress Client Name' },
 				  { id: 13, value: 'egress_cost', text: 'Egress Cost' },
 				  { id: 14, value: 'egress_dnis_type', text: 'Egress Dnis Type' },
 				  //{ id: 15, value: 'egress_media_port', text: 'Egress Media Port' },
-				  { id: 16, value: 'egress_name', text: 'Egress Name' },
+				  //{ id: 16, value: 'egress_name', text: 'Egress Name' },
 				  { id: 17, value: 'egress_rate', text: 'Egress Rate' },
 				  { id: 18, value: 'egress_rate_id', text: 'Egress Rate ID' },
-				  { id: 19, value: 'egress_rate_table_name', text: 'Egress Rate Table Name' },
+				  { id: 19, value: 'egress_rate_table_id', text: 'Egress Rate Table ID' },
 				  { id: 20, value: 'egress_rate_type', text: 'Egress Rate Type' },
 				  //{ id: 21, value: 'egress_register_user', text: 'Egress Register User' },
 				  { id: 22, value: 'egress_six_seconds', text: 'Egress Six Seconds' },
 				  { id: 23, value: 'egress_erro_string', text: 'Egress Trunk Trace' },
 				  { id: 24, value: 'release_tod', text: 'End Time' },
-				  { id: 25, value: 'final_route_indication', text: 'Final Route' },
-				  { id: 26, value: 'ingress_alias', text: 'Ingress Alias' },
+				  { id: 25, value: 'final_route_indication', text: 'Final Route' },				  
 				  { id: 27, value: 'ingress_bill_minutes', text: 'Ingress Bill Minute' },
 				  { id: 28, value: 'ingress_client_bill_result', text: 'Ingress Bill Result' },
 				  { id: 29, value: 'ingress_client_bill_time', text: 'Ingress Bill Time' },
 				  { id: 30, value: 'ingress_client_cost', text: 'Ingress Client Cost' },			
 				  { id: 31, value: 'ingress_client_currency', text: 'Ingress Client Currency' },
-				  { id: 32, value: 'ingress_client_name', text: 'Ingress Client Name' },
+				  { id: 32, value: 'ingress_client_id', text: 'Ingress Client ID' },
 				  { id: 33, value: 'ingress_client_rate', text: 'Ingress Client Rate' },
-				  { id: 34, value: 'ingress_client_rate_table_name', text: 'Ingress Client Rate Table Name' },
+				  { id: 34, value: 'ingress_client_rate_table_id', text: 'Ingress Client Rate Table ID' },
 				  { id: 35, value: 'ingress_dnis_type', text: 'Ingress DNIS Type' },
-				  { id: 36, value: 'ingress_id', text: 'Ingress ID' },
+				  { id: 36, value: 'ingress_id', text: 'Ingress Name' },
 				  { id: 37, value: 'ingress_rate_id', text: 'Ingress Rate ID' },
 				  { id: 38, value: 'ingress_rate_type', text: 'Ingress Rate Type' },
 				  //{ id: 39, value: 'ingress_register_user', text: 'Ingress Register User' },
@@ -982,7 +981,7 @@
 				for(var i = 0; i < this.selected_show_fields.length; i++)
 				{
 					var show_field = this.selected_show_fields[i];
-					
+					console.log(show_field);
 					for(var j = 0; j < this.show_field_options.length; j++)
 					{
 						var show_field_option = this.show_field_options[j];
@@ -1126,11 +1125,13 @@
 					start_time = getStartTimeOfPreviousMonth();
 					end_time = getEndTimeOfPreviousMonth();
 				} 		
-				start_time = new Date(start_time).getTime() / 1000;
-				end_time = new Date(end_time).getTime() / 1000;				
+				start_time = new Date(start_time + " GMT").getTime() / 1000;
+				end_time = new Date(end_time + " GMT").getTime() / 1000;				
 
 				this.selected_show_fields = this.backup_selected_show_fields;
-				this.makeColumns();				
+				this.makeColumns();			
+				console.log(this.selected_show_fields.length);
+				console.log(this.show_table_columns.length)	
 				var filterURL = this.makeURL();							
 				this.cdrs = [];
 				if(step != 0)

@@ -199,10 +199,10 @@
 							</select2>
 						</div>
 						<div class="inline-block">							
-							<el-select v-model="route_table_columns" multiple placeholder="Show/Hide Columns" @change="handleChange">
-                                    <el-option v-for="item in route_table_column_options" :key="item.value" :label="item.label" :value="item.value">
-                                    </el-option>
-                                </el-select>
+							<el-select v-model="plan_table_columns" multiple placeholder="Show/Hide Columns" @change="handleChange">
+								<el-option v-for="item in show_field_options" :key="item.value" :label="item.text" :value="item.value">
+								</el-option>
+							</el-select>
 						</div>
 					</div>
 					<span class="table_time chart_time margin_0">
@@ -616,40 +616,6 @@
 				  { id: 6, value: 'not_zero_calls', text: 'Not Zero Calls' },
 				  { id: 7, value: 'busy_calls', text: 'Busy Calls' },				  
 				],
-
-
-				route_table_column_options: [{
-					value: 'ID',
-					label: 'ID'
-				}, {
-					value: 'Match Prefix',
-					label: 'Match Prefix'
-				}, {
-					value: 'Route Type',
-					label: 'Route Type'
-				}, {
-					value: 'Routing',
-					label: 'Routing'
-				}, {
-					value: 'ANI Length',
-					label: 'ANI Length'
-				}, {
-					value: 'DNIS Length',
-					label: 'DNIS Length'
-				}, {
-					value: 'Update At',
-					label: 'Update At'
-				}, {
-					value: 'Update By',
-					label: 'Update By'
-				}, {
-					value: 'Action',
-					label: 'Action'
-				}],
-				route_table_columns: ['ID', 'Match Prefix', 'Route Type',
-					'Routing', 'ANI Length', 'DNIS Length', 'Update At', 'Update By', 'Action'],
-				showcolumns: [true, true, true, true, true, true, true, true, true],
-
 				more_advanced_option: true,
 				more_advanced_option_button: "Less Options",
 				loading: false,			
@@ -872,8 +838,8 @@
 					end_time = getEndTimeOfPreviousMonth();
 				} 		
 				
-				start_time = new Date(start_time).getTime() / 1000;
-				end_time = new Date(end_time).getTime() / 1000;
+				start_time = new Date(start_time + " GMT").getTime() / 1000;
+				end_time = new Date(end_time + " GMT").getTime() / 1000;
 
 				if(this.by_hours == 1)
 				{					

@@ -569,8 +569,8 @@
 					end_time = getEndTimeOfPreviousMonth();
 				} 		
 				
-				start_time = new Date(start_time).getTime() / 1000;
-				end_time = new Date(end_time).getTime() / 1000;
+				start_time = new Date(start_time + " GMT").getTime() / 1000;
+				end_time = new Date(end_time + " GMT").getTime() / 1000;
 
 				if(this.by_hours == 1)
 				{					
