@@ -1,4 +1,4 @@
-![Alt text](https://c.tadst.com/gfx/tzmap/map-mini.1509879600.png "Map")
+![Alt text](https://ibb.co/eukVq6 "Dashboard")
 
 npm install
 
